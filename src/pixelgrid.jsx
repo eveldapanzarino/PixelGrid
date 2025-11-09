@@ -24,19 +24,23 @@ export default function PixelGrid() {
   const rows = Math.floor(size.h / cellVW);
   const cols = 250;
 
-  function paintPixel(clientX, clientY) {
+  function paintPixel(e) {
     const grid = gridRef.current;
     if (!grid) return;
 
     const rect = grid.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
 
-    // calculate column and row
-    const col = Math.floor((x / rect.width) * cols);
-    const row = Math.floor((y / rect.height) * rows);
+    // Get the pointer coordinates relative to the grid
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-    if (col < 0 || col >= cols || row < 0 || row >= rows) return;
+    // Convert to col/row
+    let col = Math.floor((x / rect.width) * cols);
+    let row = Math.floor((y / rect.height) * rows);
+
+    // Clamp to valid indices
+    col = Math.max(0, Math.min(cols - 1, col));
+    row = Math.max(0, Math.min(rows - 1, row));
 
     const index = row * cols + col;
     const pixel = grid.children[index];
@@ -54,14 +58,15 @@ export default function PixelGrid() {
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
         touchAction: "none",
+        position: "relative", // ensures bounding rect matches visual grid
       }}
       onPointerDown={(e) => {
         e.preventDefault();
         setIsDrawing(true);
-        paintPixel(e.clientX, e.clientY);
+        paintPixel(e);
       }}
       onPointerMove={(e) => {
-        if (isDrawing) paintPixel(e.clientX, e.clientY);
+        if (isDrawing) paintPixel(e);
       }}
       onPointerUp={() => setIsDrawing(false)}
     >
@@ -73,10 +78,11 @@ export default function PixelGrid() {
             background: "white",
             minWidth: "1vw",
             minHeight: "1vw",
-            pointerEvents: "none", // container handles pointer
+            pointerEvents: "none", // container handles all pointer events
           }}
         />
       ))}
     </div>
   );
 }
+
