@@ -57,4 +57,4 @@ button:focus-visible {
 .highlighted{
   background-color: blue;
 }
-*{ margin: 0;}
+*{ margin: 0; padding:0;}
