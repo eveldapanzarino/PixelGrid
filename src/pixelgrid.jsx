@@ -20,9 +20,8 @@ export default function PixelGrid() {
         width: `${size.w}px`,
         height: `${size.h}px`,
         display: "grid",
-        gridTemplateColumns: `repeat(${size.w}, 1vw`,
-        gridTemplateRows: `repeat(calc(${size.h} * 2), 1vw)`,
-
+        gridTemplateColumns: `repeat(${size.w}, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
       }}
     >
       {pixels.map((_, i) => (
