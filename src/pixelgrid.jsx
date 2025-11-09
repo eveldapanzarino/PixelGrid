@@ -32,7 +32,7 @@ export default function PixelGrid() {
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(${size.w}, 1vw)`,
+        gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // IMPORTANT for mobile drawing
