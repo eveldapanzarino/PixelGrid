@@ -26,8 +26,7 @@ body {
   margin: 0;
   display: block;
   place-items: center;
-  min-width: 250px;
-  min-height: 160px;
+  
 }
 
 h1 {
