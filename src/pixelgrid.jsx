@@ -26,8 +26,9 @@ export default function PixelGrid() {
 
   function paintPixelAt(clientX, clientY) {
     const grid = gridRef.current;
-    const rect = grid.getBoundingClientRect();
+    if (!grid) return;
 
+    const rect = grid.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
@@ -39,6 +40,7 @@ export default function PixelGrid() {
     if (pixel) pixel.style.background = "blue";
   }
 
+  // --- Attach all drawing logic to the container ---
   return (
     <div
       ref={gridRef}
@@ -49,19 +51,17 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none",
+        touchAction: "none", // prevents page scroll on touch
       }}
       onPointerDown={(e) => {
+        e.preventDefault();
         setIsDrawing(true);
-        gridRef.current.setPointerCapture(e.pointerId); // ✅ keeps drag active on mobile
         paintPixelAt(e.clientX, e.clientY);
       }}
-      onPointerOver={(e) => {
-        if (isDrawing) paintPixelAt(e.clientX, e.clientY); // ✅ drag drawing works on mobile + desktop
-      }}
       onPointerMove={(e) => {
-        if (isDrawing) paintPixelAt(e.clientX, e.clientY); // ✅ extra safety for iOS Safari
+        if (isDrawing) paintPixelAt(e.clientX, e.clientY);
       }}
+      onPointerUp={() => setIsDrawing(false)}
     >
       {pixels.map((_, i) => (
         <div
@@ -71,7 +71,7 @@ export default function PixelGrid() {
             background: "white",
             minWidth: "1vw",
             minHeight: "1vw",
-            pointerEvents: "auto",
+            pointerEvents: "none", // ✅ allow touches to pass through to container
           }}
         />
       ))}
