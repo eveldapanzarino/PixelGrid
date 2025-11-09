@@ -46,7 +46,7 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // IMPORTANT for mobile drawing
+       // IMPORTANT for mobile drawing
       }}
       onTouchMove={handleTouchMove} // ✅ enables mobile drag
     >
