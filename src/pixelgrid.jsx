@@ -9,10 +9,8 @@ export default function PixelGrid() {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
-
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -26,7 +24,7 @@ export default function PixelGrid() {
   const rows = Math.floor(size.h / cellVW);
   const cols = 250;
 
-  function paintAt(clientX, clientY) {
+  function paintPixel(clientX, clientY) {
     const grid = gridRef.current;
     if (!grid) return;
 
@@ -34,10 +32,13 @@ export default function PixelGrid() {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
+    // calculate column and row
     const col = Math.floor((x / rect.width) * cols);
     const row = Math.floor((y / rect.height) * rows);
-    const index = row * cols + col;
 
+    if (col < 0 || col >= cols || row < 0 || row >= rows) return;
+
+    const index = row * cols + col;
     const pixel = grid.children[index];
     if (pixel) pixel.style.background = "blue";
   }
@@ -52,15 +53,15 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // prevents scrolling on mobile
+        touchAction: "none",
       }}
       onPointerDown={(e) => {
         e.preventDefault();
         setIsDrawing(true);
-        paintAt(e.clientX, e.clientY);
+        paintPixel(e.clientX, e.clientY);
       }}
       onPointerMove={(e) => {
-        if (isDrawing) paintAt(e.clientX, e.clientY);
+        if (isDrawing) paintPixel(e.clientX, e.clientY);
       }}
       onPointerUp={() => setIsDrawing(false)}
     >
@@ -72,7 +73,7 @@ export default function PixelGrid() {
             background: "white",
             minWidth: "1vw",
             minHeight: "1vw",
-            pointerEvents: "none", // let container handle pointer events
+            pointerEvents: "none", // container handles pointer
           }}
         />
       ))}
