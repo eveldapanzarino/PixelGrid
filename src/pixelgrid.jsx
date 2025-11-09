@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
-  const gridRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -22,26 +21,24 @@ export default function PixelGrid() {
 
   const cellVW = size.w / 250;
   const rows = Math.floor(size.h / cellVW);
-  const cols = 250;
 
-  function paintPixelAt(clientX, clientY) {
-    const grid = gridRef.current;
-    const rect = grid.getBoundingClientRect();
+  function paint(e) {
+    e.target.style.background = "blue";
+  }
 
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+  function pointerDown(e) {
+    setIsDrawing(true);
+    paint(e);
+    // Capture pointer for smooth continuous drawing
+    e.target.setPointerCapture?.(e.pointerId);
+  }
 
-    const col = Math.floor(x / (rect.width / cols));
-    const row = Math.floor(y / (rect.height / rows));
-    const index = row * cols + col;
-
-    const pixel = grid.children[index];
-    if (pixel) pixel.style.background = "blue";
+  function pointerMove(e) {
+    if (isDrawing) paint(e);
   }
 
   return (
     <div
-      ref={gridRef}
       style={{
         width: "100vw",
         height: "100vh",
@@ -49,14 +46,7 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none",
-      }}
-      onPointerDown={(e) => {
-        setIsDrawing(true);
-        paintPixelAt(e.clientX, e.clientY);
-      }}
-      onPointerMove={(e) => {
-        if (isDrawing) paintPixelAt(e.clientX, e.clientY);
+        touchAction: "none", // ✅ prevents scrolling on touch
       }}
     >
       {pixels.map((_, i) => (
@@ -69,6 +59,9 @@ export default function PixelGrid() {
             minHeight: "1vw",
             pointerEvents: "auto",
           }}
+          onPointerDown={pointerDown}
+          onPointerEnter={pointerMove}
+          onPointerMove={pointerMove}
         />
       ))}
     </div>
