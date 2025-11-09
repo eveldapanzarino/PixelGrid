@@ -26,6 +26,17 @@ export default function PixelGrid() {
     e.target.style.background = "blue";
   }
 
+  // --- Mobile touch drag handler ---
+  function handleTouchMove(e) {
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (element && element.classList.contains("pixelgrid")) {
+      element.style.background = "blue";
+    }
+  }
+
   return (
     <div
       style={{
@@ -37,6 +48,7 @@ export default function PixelGrid() {
         userSelect: "none",
         touchAction: "none", // IMPORTANT for mobile drawing
       }}
+      onTouchMove={handleTouchMove} // ✅ enables mobile drag
     >
       {pixels.map((_, i) => (
         <div
