@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -21,24 +22,29 @@ export default function PixelGrid() {
 
   const cellVW = size.w / 250; // px per 1vw
   const rows = Math.floor(size.h / cellVW);
+  const cols = 250;
 
-  function paintPixel(e) {
-    e.target.style.background = "blue";
-  }
+  function paintByCoordinates(clientX, clientY) {
+    const grid = containerRef.current;
+    if (!grid) return;
 
-  // --- Mobile touch drag handler ---
-  function handleTouchMove(e) {
-    const touch = e.touches[0];
-    if (!touch) return;
+    const rect = grid.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (element && element.classList.contains("pixelgrid")) {
-      element.style.background = "blue";
-    }
+    const col = Math.floor((x / rect.width) * cols);
+    const row = Math.floor((y / rect.height) * rows);
+
+    if (col < 0 || col >= cols || row < 0 || row >= rows) return;
+
+    const index = row * cols + col;
+    const pixel = grid.children[index];
+    if (pixel) pixel.style.background = "blue";
   }
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100vw",
         height: "100vh",
@@ -46,9 +52,16 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-       // IMPORTANT for mobile drawing
+        touchAction: "none",
       }}
-      onTouchMove={handleTouchMove} // ✅ enables mobile drag
+      onPointerDown={(e) => {
+        setIsDrawing(true);
+        paintByCoordinates(e.clientX, e.clientY);
+      }}
+      onPointerMove={(e) => {
+        if (isDrawing) paintByCoordinates(e.clientX, e.clientY);
+      }}
+      onPointerUp={() => setIsDrawing(false)}
     >
       {pixels.map((_, i) => (
         <div
@@ -58,13 +71,7 @@ export default function PixelGrid() {
           style={{
             background: "white",
             border: "1px solid transparent",
-          }}
-          onPointerDown={(e) => {
-            setIsDrawing(true);
-            paintPixel(e);
-          }}
-          onPointerEnter={(e) => {
-            if (isDrawing) paintPixel(e);
+            pointerEvents: "none", // container handles the events
           }}
         />
       ))}
