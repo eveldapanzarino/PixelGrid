@@ -4,4 +4,13 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+server: {
+    allowedHosts: [
+      'devserver-main--react-grid-responsive-graphics-render.netlify.app',
+    ],
+  },
 })
+
+export default defineConfig({
+  plugins: [react()],
+  
