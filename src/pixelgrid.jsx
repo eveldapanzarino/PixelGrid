@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
-  const containerRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -20,38 +19,26 @@ export default function PixelGrid() {
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
-  const cellVW = size.w / 250; // px per 1vw
+  const cellVW = size.w / 250;
   const rows = Math.floor(size.h / cellVW);
-  const cols = 250;
 
-  function paintPixel(e) {
+  function paint(e) {
     e.target.style.background = "blue";
   }
 
-  // --- Mobile touch drag ---
-  function handleTouchMove(e) {
-    const grid = containerRef.current;
-    if (!grid) return;
-    for (let i = 0; i < e.touches.length; i++) {
-      const touch = e.touches[i];
-      const rect = grid.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
+  function pointerDown(e) {
+    setIsDrawing(true);
+    paint(e);
+    // Capture pointer for smooth continuous drawing
+    e.target.setPointerCapture?.(e.pointerId);
+  }
 
-      const col = Math.floor((x / rect.width) * cols);
-      const row = Math.floor((y / rect.height) * rows);
-
-      if (col < 0 || col >= cols || row < 0 || row >= rows) continue;
-
-      const index = row * cols + col;
-      const pixel = grid.children[index];
-      if (pixel) pixel.style.background = "blue";
-    }
+  function pointerMove(e) {
+    if (isDrawing) paint(e);
   }
 
   return (
     <div
-      ref={containerRef}
       style={{
         width: "100vw",
         height: "100vh",
@@ -59,26 +46,22 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // allow dragging on mobile
+        touchAction: "none", // ✅ prevents scrolling on touch
       }}
-      onTouchMove={handleTouchMove} // mobile drag
     >
       {pixels.map((_, i) => (
         <div
           key={i}
           id={`pixel-${i}`}
-          className="pixelgrid"
           style={{
             background: "white",
-            border: "1px solid transparent",
+            minWidth: "1vw",
+            minHeight: "1vw",
+            pointerEvents: "auto",
           }}
-          onPointerDown={(e) => {
-            setIsDrawing(true);
-            paintPixel(e);
-          }}
-          onPointerEnter={(e) => {
-            if (isDrawing) paintPixel(e);
-          }}
+          onPointerDown={pointerDown}
+          onPointerEnter={pointerMove}
+          onPointerMove={pointerMove}
         />
       ))}
     </div>
