@@ -15,14 +15,13 @@ export default function PixelGrid() {
   const pixels = Array.from({ length: totalPixels });
 
   return (
-    <div
+     <div
       style={{
-        width: `${size.w}px`,
-        height: `${size.h}px`,
+        width: "100vw",
+        height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(${size.w}, 1vw`,
-        gridTemplateRows: `repeat(calc(${size.h} * 2), 1vw)`,
-
+        gridTemplateColumns: `repeat(100, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
       }}
     >
       {pixels.map((_, i) => (
