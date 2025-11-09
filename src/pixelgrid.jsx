@@ -11,6 +11,7 @@ export default function PixelGrid() {
     }
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -20,25 +21,23 @@ export default function PixelGrid() {
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
-  const cellVW = size.w / 250;
-  const rows = Math.floor(size.h / cellVW);
   const cols = 250;
+  const cellWidth = size.w / cols;
+  const rows = Math.floor(size.h / cellWidth);
 
   function paintPixel(e) {
     const grid = gridRef.current;
     if (!grid) return;
 
     const rect = grid.getBoundingClientRect();
-
-    // Get the pointer coordinates relative to the grid
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Convert to col/row
-    let col = Math.floor((x / rect.width) * cols);
-    let row = Math.floor((y / rect.height) * rows);
+    // Calculate column and row using exact pixel width/height
+    let col = Math.floor(x / cellWidth);
+    let row = Math.floor(y / cellWidth);
 
-    // Clamp to valid indices
+    // Clamp indices
     col = Math.max(0, Math.min(cols - 1, col));
     row = Math.max(0, Math.min(rows - 1, row));
 
@@ -54,11 +53,10 @@ export default function PixelGrid() {
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${rows}, 1vw)`,
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gridTemplateRows: `repeat(${rows}, 1fr)`,
         userSelect: "none",
         touchAction: "none",
-        position: "relative", // ensures bounding rect matches visual grid
       }}
       onPointerDown={(e) => {
         e.preventDefault();
@@ -76,13 +74,12 @@ export default function PixelGrid() {
           id={`pixel-${i}`}
           style={{
             background: "white",
-            minWidth: "1vw",
-            minHeight: "1vw",
-            pointerEvents: "none", // container handles all pointer events
+            minWidth: `${cellWidth}px`,
+            minHeight: `${cellWidth}px`,
+            pointerEvents: "none",
           }}
         />
       ))}
     </div>
   );
 }
-
