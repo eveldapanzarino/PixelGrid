@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
-  const gridRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -11,7 +10,6 @@ export default function PixelGrid() {
     }
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
-
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -21,62 +19,40 @@ export default function PixelGrid() {
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
-  const cols = 250;
-  const cellWidth = size.w / cols;
-  const rows = Math.floor(size.h / cellWidth);
+  const cellVW = size.w / 100; // px per 1vw
+  const rows = Math.floor(size.h / cellVW);
 
   function paintPixel(e) {
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const rect = grid.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    // Calculate column and row using exact pixel width/height
-    let col = Math.floor(x / cellWidth);
-    let row = Math.floor(y / cellWidth);
-
-    // Clamp indices
-    col = Math.max(0, Math.min(cols - 1, col));
-    row = Math.max(0, Math.min(rows - 1, row));
-
-    const index = row * cols + col;
-    const pixel = grid.children[index];
-    if (pixel) pixel.style.background = "blue";
+    e.target.style.background = "blue";
   }
 
   return (
     <div
-      ref={gridRef}
       style={{
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        gridTemplateRows: `repeat(${rows}, 1fr)`,
+        gridTemplateColumns: `repeat(100, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none",
+        touchAction: "none", // IMPORTANT for mobile drawing
       }}
-      onPointerDown={(e) => {
-        e.preventDefault();
-        setIsDrawing(true);
-        paintPixel(e);
-      }}
-      onPointerMove={(e) => {
-        if (isDrawing) paintPixel(e);
-      }}
-      onPointerUp={() => setIsDrawing(false)}
     >
       {pixels.map((_, i) => (
         <div
           key={i}
           id={`pixel-${i}`}
+          className="pixelgrid"
           style={{
             background: "white",
-            minWidth: `${cellWidth}px`,
-            minHeight: `${cellWidth}px`,
-            pointerEvents: "none",
+            border: "1px solid transparent",
+          }}
+          onPointerDown={(e) => {
+            setIsDrawing(true);
+            paintPixel(e);
+          }}
+          onPointerEnter={(e) => {
+            if (isDrawing) paintPixel(e);
           }}
         />
       ))}
