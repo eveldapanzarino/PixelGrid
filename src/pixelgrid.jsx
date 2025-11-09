@@ -9,10 +9,8 @@ export default function PixelGrid() {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
-
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -26,42 +24,28 @@ export default function PixelGrid() {
   const rows = Math.floor(size.h / cellVW);
   const cols = 250;
 
-  function paintByCoordinates(clientX, clientY) {
+  function paintPixel(e) {
+    e.target.style.background = "blue";
+  }
+
+  // --- Mobile touch drag ---
+  function handleTouchMove(e) {
     const grid = containerRef.current;
     if (!grid) return;
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches[i];
+      const rect = grid.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
 
-    const rect = grid.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+      const col = Math.floor((x / rect.width) * cols);
+      const row = Math.floor((y / rect.height) * rows);
 
-    const col = Math.floor((x / rect.width) * cols);
-    const row = Math.floor((y / rect.height) * rows);
+      if (col < 0 || col >= cols || row < 0 || row >= rows) continue;
 
-    if (col < 0 || col >= cols || row < 0 || row >= rows) return;
-
-    const index = row * cols + col;
-    const pixel = grid.children[index];
-    if (pixel) pixel.style.background = "blue";
-  }
-
-  // --- container-level pointer events for mobile ---
-  function handlePointerDown(e) {
-    e.preventDefault(); // important to prevent scrolling on mobile
-    setIsDrawing(true);
-    paintByCoordinates(e.clientX, e.clientY);
-  }
-
-  function handlePointerMove(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    if (e.touches) {
-      // handle touch events
-      for (let i = 0; i < e.touches.length; i++) {
-        const touch = e.touches[i];
-        paintByCoordinates(touch.clientX, touch.clientY);
-      }
-    } else {
-      paintByCoordinates(e.clientX, e.clientY);
+      const index = row * cols + col;
+      const pixel = grid.children[index];
+      if (pixel) pixel.style.background = "blue";
     }
   }
 
@@ -77,9 +61,7 @@ export default function PixelGrid() {
         userSelect: "none",
         touchAction: "none", // allow dragging on mobile
       }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={() => setIsDrawing(false)}
+      onTouchMove={handleTouchMove} // mobile drag
     >
       {pixels.map((_, i) => (
         <div
@@ -89,7 +71,13 @@ export default function PixelGrid() {
           style={{
             background: "white",
             border: "1px solid transparent",
-            pointerEvents: "none", // container handles events
+          }}
+          onPointerDown={(e) => {
+            setIsDrawing(true);
+            paintPixel(e);
+          }}
+          onPointerEnter={(e) => {
+            if (isDrawing) paintPixel(e);
           }}
         />
       ))}
