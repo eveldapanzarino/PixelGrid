@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -19,26 +22,29 @@ export default function PixelGrid() {
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
-  const cellVW = size.w / 100;
+  const cellVW = size.w / 250;
   const rows = Math.floor(size.h / cellVW);
+  const cols = 250;
 
-  function paint(e) {
-    e.target.style.background = "blue";
-  }
+  function paintAt(clientX, clientY) {
+    const grid = gridRef.current;
+    if (!grid) return;
 
-  function pointerDown(e) {
-    setIsDrawing(true);
-    paint(e);
-    // Capture pointer for smooth continuous drawing
-    e.target.setPointerCapture?.(e.pointerId);
-  }
+    const rect = grid.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
-  function pointerMove(e) {
-    if (isDrawing) paint(e);
+    const col = Math.floor((x / rect.width) * cols);
+    const row = Math.floor((y / rect.height) * rows);
+    const index = row * cols + col;
+
+    const pixel = grid.children[index];
+    if (pixel) pixel.style.background = "blue";
   }
 
   return (
     <div
+      ref={gridRef}
       style={{
         width: "100vw",
         height: "100vh",
@@ -46,8 +52,17 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // ✅ prevents scrolling on touch
+        touchAction: "none", // prevents scrolling on mobile
       }}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        setIsDrawing(true);
+        paintAt(e.clientX, e.clientY);
+      }}
+      onPointerMove={(e) => {
+        if (isDrawing) paintAt(e.clientX, e.clientY);
+      }}
+      onPointerUp={() => setIsDrawing(false)}
     >
       {pixels.map((_, i) => (
         <div
@@ -57,11 +72,8 @@ export default function PixelGrid() {
             background: "white",
             minWidth: "1vw",
             minHeight: "1vw",
-            pointerEvents: "auto",
+            pointerEvents: "none", // let container handle pointer events
           }}
-          onPointerDown={pointerDown}
-          onPointerEnter={pointerMove}
-          onPointerMove={pointerMove}
         />
       ))}
     </div>
