@@ -57,6 +57,6 @@ button:focus-visible {
   background-color: blue;
 }
 .pixelgrid:hover{
-
+border: 1px solid black;
 }
 
