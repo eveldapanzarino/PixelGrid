@@ -10,18 +10,13 @@ export default function PixelGrid() {
     }
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("pointerup", () => setIsDrawing(false));
-    };
   }, []);
 
-
-
-  const cellVW = size.w / 100; // px per 1vw
+  const cellVW = size.w / 100;
   const rows = Math.floor(size.h / cellVW);
- const totalPixels = 250 * size.h;
-   const pixels = Array.from({ length: totalPixels });
+  const totalPixels = 250 * rows;
+  const pixels = Array.from({ length: totalPixels });
+
   function paintPixel(e) {
     e.target.style.background = "blue";
   }
@@ -30,27 +25,24 @@ export default function PixelGrid() {
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        height: "100dvh", // mobile-correct viewport
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // IMPORTANT for mobile drawing
+        touchAction: "none",
       }}
     >
       {pixels.map((_, i) => (
         <div
           key={i}
-          id={`pixel-${i}`}
           className="pixelgrid"
-          style={{
-            background: "white",
-          }}
+          style={{ background: "white" }}
           onPointerDown={(e) => {
             setIsDrawing(true);
             paintPixel(e);
           }}
-          onPointerEnter={(e) => {
+          onPointerMove={(e) => {
             if (isDrawing) paintPixel(e);
           }}
         />
