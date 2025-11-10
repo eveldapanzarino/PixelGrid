@@ -11,7 +11,7 @@ export default function PixelGrid() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   
-  const totalPixels = 300 * 166;
+  const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
   return (
@@ -20,8 +20,8 @@ export default function PixelGrid() {
         width: `100vw`,
         height: `100vw`,
         display: "grid",
-        gridTemplateColumns: `repeat(300, 1vw)`,
-        gridTemplateRows: `repeat(166, 1vh))`,
+        gridTemplateColumns: `repeat(${size.w}, 1vw)`,
+        gridTemplateRows: `repeat(${size.h}, 1vw))`,
 
       }}
     >
