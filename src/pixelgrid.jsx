@@ -16,13 +16,12 @@ export default function PixelGrid() {
     };
   }, []);
 
- 
- 
-  const rows = Math.floor(size.h / cellVW);
-  const cellVW = size.w / 100;
+  const totalPixels = 250 * 160;
+  const pixels = Array.from({ length: totalPixels });
 
- const totalPixels = 250 * rows;
-    const pixels = Array.from({ length: totalPixels });
+  const cellVW = size.w / 100;
+  const rows = Math.floor(size.h / cellVW);
+
   function paint(e) {
     e.target.style.background = "blue";
   }
@@ -44,8 +43,8 @@ export default function PixelGrid() {
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${size.h}, 1vw)`,
+        gridTemplateColumns: `repeat(100, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // ✅ prevents scrolling on touch
       }}
