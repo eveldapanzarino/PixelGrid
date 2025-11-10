@@ -34,7 +34,7 @@ const totalPixels = 250 * ;
         height: "100vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${size}, 1vw)`,
+        gridTemplateRows: `repeat(${size.h}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // IMPORTANT for mobile drawing
       }}
