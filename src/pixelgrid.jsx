@@ -33,7 +33,7 @@ export default function PixelGrid() {
         height: "100vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${rows}, 1vw)`,
+        gridTemplateRows: `repeat(${width.h}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // IMPORTANT for mobile drawing
       }}
