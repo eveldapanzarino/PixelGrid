@@ -16,7 +16,7 @@ export default function PixelGrid() {
     };
   }, []);
 
-  const totalPixels = 250 * 160;
+  const totalPixels = 250 * rows;
   const pixels = Array.from({ length: totalPixels });
 
   const cellVW = size.w / 100; // px per 1vw
