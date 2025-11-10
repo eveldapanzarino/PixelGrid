@@ -21,7 +21,7 @@ export default function PixelGrid() {
         height: `${size.h}px`,
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(calc(${size.h} / 1vw), auto)`,
+        gridTemplateRows: `repeat(${size.h}), auto)`,
 
       }}
     >
