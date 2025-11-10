@@ -10,41 +10,58 @@ export default function PixelGrid() {
     }
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("pointerup", () => setIsDrawing(false));
+    };
   }, []);
+
+  const totalPixels = 250 * size.h;
+  const pixels = Array.from({ length: totalPixels });
 
   const cellVW = size.w / 100;
   const rows = Math.floor(size.h / cellVW);
-  const totalPixels = 250 * rows;
-  const pixels = Array.from({ length: totalPixels });
 
-  function paintPixel(e) {
+  function paint(e) {
     e.target.style.background = "blue";
+  }
+
+  function pointerDown(e) {
+    setIsDrawing(true);
+    paint(e);
+    // Capture pointer for smooth continuous drawing
+    e.target.setPointerCapture?.(e.pointerId);
+  }
+
+  function pointerMove(e) {
+    if (isDrawing) paint(e);
   }
 
   return (
     <div
       style={{
         width: "100vw",
-        height: "100dvh", // mobile-correct viewport
+        height: "100dvh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none",
+        touchAction: "none", // ✅ prevents scrolling on touch
       }}
     >
       {pixels.map((_, i) => (
         <div
           key={i}
-          className="pixelgrid"
-          style={{ background: "white" }}
-          onPointerDown={(e) => {
-            setIsDrawing(true);
-            paintPixel(e);
+          id={`pixel-${i}`}
+          style={{
+            background: "white",
+            minWidth: "1vw",
+            minHeight: "1vw",
+            pointerEvents: "auto",
           }}
-          onPointerMove={(e) => {
-            if (isDrawing) paintPixel(e);
-          }}
+          onPointerDown={pointerDown}
+          onPointerEnter={pointerMove}
+          onPointerMove={pointerMove}
         />
       ))}
     </div>
