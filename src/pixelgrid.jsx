@@ -45,7 +45,6 @@ export default function PixelGrid() {
           className="pixelgrid"
           style={{
             background: "white",
-            border: "1px solid transparent",
           }}
           onPointerDown={(e) => {
             setIsDrawing(true);
