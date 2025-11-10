@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 export default function PixelGrid() {
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
+  const [grid, setGrid] = useState([]);
+
+  useEffect(() => {
+    // initialize grid once
+    const totalPixels = 100 * Math.floor(window.innerHeight / (window.innerWidth / 100));
+    setGrid(Array(totalPixels).fill("white"));
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -16,53 +23,49 @@ export default function PixelGrid() {
     };
   }, []);
 
-  const totalPixels = 250 * size.h;
-  const pixels = Array.from({ length: totalPixels });
-
   const cellVW = size.w / 100;
   const rows = Math.floor(size.h / cellVW);
+  const cols = 100;
 
-  function paint(e) {
-    e.target.style.background = "blue";
-  }
+  function paintAt(clientX, clientY) {
+    const rect = document.getElementById("grid").getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
-  function pointerDown(e) {
-    setIsDrawing(true);
-    paint(e);
-    // Capture pointer for smooth continuous drawing
-    e.target.setPointerCapture?.(e.pointerId);
-  }
+    const col = Math.floor((x / rect.width) * cols);
+    const row = Math.floor((y / rect.height) * rows);
+    const index = row * cols + col;
 
-  function pointerMove(e) {
-    if (isDrawing) paint(e);
+    setGrid((g) => {
+      if (index < 0 || index >= g.length) return g;
+      if (g[index] === "blue") return g;
+      const newGrid = g.slice();
+      newGrid[index] = "blue";
+      return newGrid;
+    });
   }
 
   return (
     <div
+      id="grid"
       style={{
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${rows}, 1vw)`,
-        userSelect: "none",
-        touchAction: "none", // ✅ prevents scrolling on touch
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gridTemplateRows: `repeat(${rows}, 1fr)`,
+        touchAction: "none", // <--- required for mobile drawing
+      }}
+      onPointerDown={(e) => {
+        setIsDrawing(true);
+        paintAt(e.clientX, e.clientY);
+      }}
+      onPointerMove={(e) => {
+        if (isDrawing) paintAt(e.clientX, e.clientY);
       }}
     >
-      {pixels.map((_, i) => (
-        <div
-          key={i}
-          id={`pixel-${i}`}
-          style={{
-            background: "white",
-            minWidth: "1vw",
-            minHeight: "1vw",
-            pointerEvents: "auto",
-          }}
-          onPointerDown={pointerDown}
-          onPointerEnter={pointerMove}
-          onPointerMove={pointerMove}
-        />
+      {grid.map((color, i) => (
+        <div key={i} style={{ background: color }} />
       ))}
     </div>
   );
