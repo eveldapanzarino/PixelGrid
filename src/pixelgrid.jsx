@@ -17,11 +17,12 @@ export default function PixelGrid() {
   }, []);
 
  
-  const pixels = Array.from({ length: totalPixels });
+ 
   const rows = Math.floor(size.h / cellVW);
   const cellVW = size.w / 100;
 
  const totalPixels = 250 * size.h;
+    const pixels = Array.from({ length: totalPixels });
   function paint(e) {
     e.target.style.background = "blue";
   }
