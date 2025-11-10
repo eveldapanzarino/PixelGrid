@@ -17,8 +17,8 @@ export default function PixelGrid() {
   return (
     <div
       style={{
-        width: `100vw`,
-        height: `100vw`,
+        width: `250`,
+        height: `160`,
         display: "grid",
         gridTemplateColumns: `repeat(${size.w}, 1vw)`,
         gridTemplateRows: `repeat(${size.h}, 1vw))`,
