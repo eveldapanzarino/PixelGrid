@@ -29,7 +29,7 @@ export default function PixelGrid() {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "250vw",
         height: "100vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
