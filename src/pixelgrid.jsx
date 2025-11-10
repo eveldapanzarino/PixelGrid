@@ -20,7 +20,7 @@ export default function PixelGrid() {
   const cellVW = size.w / 100; // px per 1vw
   const rows = Math.floor(size.h / cellVW);
 
-const totalPixels = 250 * rows;
+const totalPixels = 250 * ;
   const pixels = Array.from({ length: totalPixels });
 
   function paintPixel(e) {
@@ -34,7 +34,7 @@ const totalPixels = 250 * rows;
         height: "100vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(${rows}, 1vw)`,
+        gridTemplateRows: `repeat(${size}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // IMPORTANT for mobile drawing
       }}
