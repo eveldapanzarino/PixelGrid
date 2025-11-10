@@ -1,6 +1,6 @@
 I made a React grid based graphic renderer where you can place pixels and their position on the screen is responsive with desktop and mobile. If you want to check it out:
 
-https://pixel-grid-ten.vercel.app
+https://pixel-grid-murex.vercel.app
 
 click and you place pixels
 
