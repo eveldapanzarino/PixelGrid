@@ -20,7 +20,6 @@ export default function PixelGrid() {
   const pixels = Array.from({ length: totalPixels });
 
   const cellVW = size.w / 100; // px per 1vw
-  const rows = Math.floor(size.h / cellVW);
 
   function paintPixel(e) {
     e.target.style.background = "blue";
