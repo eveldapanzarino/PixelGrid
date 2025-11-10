@@ -20,7 +20,7 @@ export default function PixelGrid() {
         width: `250`,
         height: `160`,
         display: "grid",
-        gridTemplateColumns: `repeat(${size.w}, 1vw)`,
+        gridTemplateColumns: `calc(repeat(${size.w} / 10), 1vw)`,
         gridTemplateRows: `repeat(${size.h}, 1vw))`,
 
       }}
