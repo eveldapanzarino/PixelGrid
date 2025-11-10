@@ -19,22 +19,11 @@ export default function PixelGrid() {
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
 
-  const cellVW = size.w / 100;
+  const cellVW = size.w / 100; // px per 1vw
   const rows = Math.floor(size.h / cellVW);
 
-  function paint(e) {
+  function paintPixel(e) {
     e.target.style.background = "blue";
-  }
-
-  function pointerDown(e) {
-    setIsDrawing(true);
-    paint(e);
-    // Capture pointer for smooth continuous drawing
-    e.target.setPointerCapture?.(e.pointerId);
-  }
-
-  function pointerMove(e) {
-    if (isDrawing) paint(e);
   }
 
   return (
@@ -46,22 +35,25 @@ export default function PixelGrid() {
         gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
-        touchAction: "none", // ✅ prevents scrolling on touch
+        touchAction: "none", // IMPORTANT for mobile drawing
       }}
     >
       {pixels.map((_, i) => (
         <div
           key={i}
           id={`pixel-${i}`}
+          className="pixelgrid"
           style={{
             background: "white",
-            minWidth: "1vw",
-            minHeight: "1vw",
-            pointerEvents: "auto",
+            border: "1px solid transparent",
           }}
-          onPointerDown={pointerDown}
-          onPointerEnter={pointerMove}
-          onPointerMove={pointerMove}
+          onPointerDown={(e) => {
+            setIsDrawing(true);
+            paintPixel(e);
+          }}
+          onPointerEnter={(e) => {
+            if (isDrawing) paintPixel(e);
+          }}
         />
       ))}
     </div>
