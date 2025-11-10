@@ -32,8 +32,8 @@ export default function PixelGrid() {
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(250, 1fr)`,
-        gridTemplateRows: `repeat(${rows}, 1fr)`,
+        gridTemplateColumns: `repeat(250, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
         touchAction: "none",
       }}
@@ -44,8 +44,7 @@ export default function PixelGrid() {
           id={`pixel-${i}`}
           className="pixelgrid"
           style={{
-            background: "white",
-            border: "1px solid transparent",
+            background: "white"
           }}
           onPointerDown={(e) => {
             setIsDrawing(true);
