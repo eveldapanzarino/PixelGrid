@@ -13,27 +13,30 @@ export default function PixelGrid() {
   
   const totalPixels = 250 * 160;
   const pixels = Array.from({ length: totalPixels });
-
+  
+  const cellVW = size.w / 100;           // px per 1vw
+  const rows = Math.floor(size.h / cellVW);
+  
   return (
-    <div
+     <div
       style={{
-        width: `100vw`,   // 250 pixels * 1vw each
-        height: `100vh`,  // 160 pixels * 1vw each
+        width: "100vw",
+        height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(160, 1vw)`,
-
+        gridTemplateColumns: `repeat(160, 1vw)`,
+        gridTemplateRows: `repeat(${rows}, 1vw)`,
       }}
     >
       {pixels.map((_, i) => (
         <div
-          key={i}
-          id={`pixel-${i}`}
-          className="pixelgrid"
-          style={{ background: "white" }}
-          onClick={(e) => { e.target.style.background = "blue"; }}
-        />
+  key={i}
+  id={`pixel-${i}`}
+  className="pixelgrid"
+  style={{ background: i % 2 ? "white" : "white" }}
+       onClick={(e) => { e.target.style.background = "blue"; }}
+/>
       ))}
     </div>
   );
+  
 }
