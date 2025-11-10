@@ -17,11 +17,11 @@ export default function PixelGrid() {
   return (
     <div
       style={{
-        width: `250vw`,   // 250 pixels * 1vw each
-        height: `160vw`,  // 160 pixels * 1vw each
+        width: `100vw`,   // 250 pixels * 1vw each
+        height: `100vw`,  // 160 pixels * 1vw each
         display: "grid",
         gridTemplateColumns: `repeat(250, 1vw)`,
-        gridTemplateRows: `repeat(calc(${size.h} / 10), 1vw)`,
+        gridTemplateRows: `repeat(160, 1vw)`,
 
       }}
     >
