@@ -17,8 +17,8 @@ export default function PixelGrid() {
   return (
     <div
       style={{
-        width: `250`,
-        height: `160`,
+        width: `250vw`,   // 250 pixels * 1vw each
+        height: `160vw`,  // 160 pixels * 1vw each
         display: "grid",
         gridTemplateColumns: `repeat('250', 1vw)`,
         gridTemplateRows: `repeat('160', 1vh)`,
@@ -27,14 +27,13 @@ export default function PixelGrid() {
     >
       {pixels.map((_, i) => (
         <div
-  key={i}
-  id={`pixel-${i}`}
-  className="pixelgrid"
-  style={{ background: i % 2 ? "white" : "white" }}
-       onClick={(e) => { e.target.style.background = "blue"; }}
-/>
+          key={i}
+          id={`pixel-${i}`}
+          className="pixelgrid"
+          style={{ background: "white" }}
+          onClick={(e) => { e.target.style.background = "blue"; }}
+        />
       ))}
     </div>
   );
-  
 }
