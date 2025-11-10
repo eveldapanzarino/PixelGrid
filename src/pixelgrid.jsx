@@ -16,7 +16,7 @@ export default function PixelGrid() {
     };
   }, []);
 
-  const totalPixels = 250 * 160;
+  const totalPixels = 250 * size.h;
   const pixels = Array.from({ length: totalPixels });
 
   const cellVW = size.w / 100;
@@ -43,7 +43,7 @@ export default function PixelGrid() {
         width: "100vw",
         height: "100vh",
         display: "grid",
-        gridTemplateColumns: `repeat(100, 1vw)`,
+        gridTemplateColumns: `repeat(250, 1vw)`,
         gridTemplateRows: `repeat(${rows}, 1vw)`,
         userSelect: "none",
         touchAction: "none", // ✅ prevents scrolling on touch
