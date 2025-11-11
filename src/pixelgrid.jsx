@@ -95,19 +95,18 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 
    {/* ✅ TOP BAR */}
 <div style={{
-position: absolute,
-    top: "0px",
-    left: "0px",
-    width: "100vw",
-    height: "3vh",
-    background: rgb(17, 17, 17),
-    borderbottom: "0.3vw solid rgb(68, 68, 68)",
-    display: grid,
-    gridtemplatecolumns: "repeat(15, 7.5vw)",
-    alignitems: center,
-    padding: "0px",
-    gap: "1vw",
-    zindex: "20",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "3vh",
+  background: "#111",
+  borderBottom: "0.3vw solid #444",
+  display: "grid",
+  gridTemplateColumns: "repeat(15, 7.5vw)",
+  alignItems: "center",
+
+  zIndex: 20
 }}>
   
   {/* FILE BUTTON */}
