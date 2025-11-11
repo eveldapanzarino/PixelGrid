@@ -44,8 +44,8 @@ const totalPixels = 250 * rows * 1.2;
     </div>
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
+        width: "50vw",
+        height: "50vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1.5vw)`,
         gridTemplateRows: `repeat(${rows}, 1.5vw)`,
