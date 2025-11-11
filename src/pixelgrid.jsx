@@ -107,7 +107,26 @@ const colors = ${data};
   gap: "1vw",
   zIndex: 10
 }}>
-  <div style={{ color: "#aaa", fontSize: "1.2vw" }}>Pixel Art</div>
+  <div style={{ color: "#aaa", fontSize: "1.2vw" }}>
+      {/* ✅ Save Button */}
+  <button
+    onClick={saveToHTML}
+    style={{
+      width: "100%",
+      padding: "0.5vw 1vw",
+      background: "#333",
+      color: "white",
+      borderRadius: "0.5vw",
+      border: "0.2vw solid #666",
+      cursor: "pointer",
+      fontSize: "0.9vw",
+      marginBottom: "1vw"
+    }}
+  >
+    Save
+  </button>
+  </div>
+  
 </div>
 
      {/* SIDEBAR */}
@@ -126,23 +145,7 @@ const colors = ${data};
     borderRight: "0.4vw solid #444",
   }}
 >
-  {/* ✅ Save Button */}
-  <button
-    onClick={saveToHTML}
-    style={{
-      width: "100%",
-      padding: "0.5vw 1vw",
-      background: "#333",
-      color: "white",
-      borderRadius: "0.5vw",
-      border: "0.2vw solid #666",
-      cursor: "pointer",
-      fontSize: "0.9vw",
-      marginBottom: "1vw"
-    }}
-  >
-    Save File
-  </button>
+
 
   
 
