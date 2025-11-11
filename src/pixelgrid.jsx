@@ -109,12 +109,12 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   zIndex: 20
 }}>
   
-<div >
-  <img src="localhost:4173/public/favicon-32x32.png" style={{
+<div>
+  {/* use public/ assets via root path so Vite serves them correctly */}
+  <img src="/favicon-32x32.png" alt="favicon" style={{
     width: "3vw",
     height: "3vw"
-  }} 
-    />
+  }} />
 </div>
 
   {/* FILE BUTTON */}
