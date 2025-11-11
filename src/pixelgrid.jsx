@@ -12,31 +12,28 @@ export default function PixelGrid() {
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const cellVW = size.w / 100;
-  const rows = Math.max(1, Math.floor(size.h / cellVW));
-  const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
-
-  // NEW: Pixel color state
-  const [pixelColors, setPixelColors] = useState(() => Array(totalPixels).fill("#000000"));
-
   useEffect(() => {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
     };
   }, []);
 
-  function paintPixel(e, index) {
-    setPixelColors((prev) => {
-      const copy = [...prev];
-      copy[index] = color;
-      return copy;
-    });
+  const cellVW = size.w / 100;
+  const rows = Math.max(1, Math.floor(size.h / cellVW));
+  const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
+  const pixels = Array.from({ length: totalPixels });
+
+  function paintPixel(e) {
+    if (!e.target || !(e.target instanceof HTMLElement)) return;
+    e.target.style.background = color;
   }
 
   function normalizeHexInput(raw) {
@@ -50,80 +47,8 @@ export default function PixelGrid() {
     setColor(swatches[idx] || "#000000");
   }
 
-  // ✅ SAVE FUNCTION
-  function saveToHTML() {
-    const data = JSON.stringify(pixelColors);
-    const html = `
-<!DOCTYPE html>
-<html>
-<body style="margin:0;background:black;">
-<div style="display:grid;grid-template-columns:repeat(250,10px);grid-auto-rows:10px;">
-${pixelColors.map(c => `<div style="width:10px;height:10px;background:${c}"></div>`).join("")}
-</div>
-<script>
-const colors = ${data};
-</script>
-</body>
-</html>`;
-
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "pixel-art.html";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // ✅ LOAD FUNCTION
-  function loadFromHTML(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target.result;
-      const match = text.match(/const colors = (\\[[^;]+\\])/);
-      if (match) {
-        const arr = JSON.parse(match[1]);
-        setPixelColors(arr);
-      }
-    };
-    reader.readAsText(file);
-  }
-
- return (
-  <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column" }}>
-
-    {/* TOP BAR (BLOCK) */}
-    <div
-      style={{
-        height: "5vh",
-        minHeight: "40px",
-        background: "#111",
-        borderBottom: "0.4vw solid #333",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 1vw",
-        gap: "1vw",
-      }}
-    >
-      <button
-        onClick={() => alert("Save will be reconnected in next step")}
-        style={{
-          background: "#333",
-          color: "white",
-          padding: "0.5vw 1vw",
-          borderRadius: "0.5vw",
-          border: "0.2vw solid #666",
-          cursor: "pointer",
-        }}
-      >
-        Save
-      </button>
-
-      <input type="file" style={{ color: "white" }} />
-    </div>
-
-    {/* MAIN CONTENT ROW */}
-    <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+  return (
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
 
       {/* COLOR SIDEBAR */}
       <div
@@ -156,7 +81,7 @@ const colors = ${data};
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+                setSwatches(prev => prev.filter((_, idx) => idx !== i));
                 if (selectedIndex === i) setSelectedIndex(null);
               }}
               style={{
@@ -184,6 +109,7 @@ const colors = ${data};
           </div>
         ))}
 
+        {/* Color Preview */}
         <div
           style={{
             width: "6vh",
@@ -195,14 +121,16 @@ const colors = ${data};
           }}
         />
 
+        {/* Hex Input */}
         <input
           type="text"
           value={color}
           onChange={(e) => {
             const normalized = normalizeHexInput(e.target.value);
             setColor(normalized);
+
             if (selectedIndex != null) {
-              setSwatches((prev) => {
+              setSwatches(prev => {
                 const copy = [...prev];
                 copy[selectedIndex] = normalized;
                 return copy;
@@ -222,11 +150,12 @@ const colors = ${data};
           }}
         />
 
+        {/* Add Swatch */}
         <button
           type="button"
           onClick={() => {
             if (swatches.length < 4) {
-              setSwatches((prev) => [...prev, "#ffffff"]);
+              setSwatches(prev => [...prev, "#ffffff"]);
               setSelectedIndex(swatches.length);
               setColor("#ffffff");
             }
@@ -247,30 +176,31 @@ const colors = ${data};
         </button>
       </div>
 
-  {/* DRAWING GRID */}
-<div
-  style={{
-    flex: 1,
-    display: "grid",
-    gridTemplateColumns: `repeat(250, 1vw)`, // ✅ FIXED
-    gridTemplateRows: `repeat(${rows}, 1vw)`, // ✅ FIXED
-    userSelect: "none",
-    touchAction: "none",
-  }}
->
-  {pixels.map((_, i) => (
-    <div
-      key={i}
-      onPointerDown={(e) => {
-        setIsDrawing(true);
-        paintPixel(e);
-      }}
-      onPointerEnter={(e) => {
-        if (isDrawing) paintPixel(e);
-      }}
-    />
-  ))}
-</div>
+      {/* DRAWING GRID */}
+      <div
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: `repeat(250, 1vw)`,   // ✅ FIXED
+          gridTemplateRows: `repeat(${rows}, 1vw)`,  // ✅ FIXED
+          userSelect: "none",
+          touchAction: "none",
+        }}
+      >
+        {pixels.map((_, i) => (
+          <div
+            key={i}
+            onPointerDown={(e) => {
+              setIsDrawing(true);
+              paintPixel(e);
+            }}
+            onPointerEnter={(e) => {
+              if (isDrawing) paintPixel(e);
+            }}
+          />
+        ))}
+      </div>
+
     </div>
-  </div>
-);
+  );
+}
