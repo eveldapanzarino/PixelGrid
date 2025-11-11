@@ -150,31 +150,7 @@ export default function PixelGrid() {
         />
 
         {/* Optional: Add a button to apply the current input to the selected swatch even if it's partial */}
-        <button
-          onClick={() =>
-            setSwatches((prev) => {
-              const copy = [...prev];
-              if (selectedIndex != null && selectedIndex >= 0 && selectedIndex < copy.length) {
-                // only apply if color is a valid 7-char "#rrggbb"
-                if (/^#[0-9A-Fa-f]{6}$/.test(color)) copy[selectedIndex] = color;
-              }
-              return copy;
-            })
-          }
-          style={{
-            marginTop: "6px",
-            padding: "0.5vw 1vw",
-            minWidth: "40px",
-            background: "#333",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontSize: "12px",
-          }}
-        >
-          Apply
-        </button>
+
       </div>
 
       {/* DRAWING GRID */}
