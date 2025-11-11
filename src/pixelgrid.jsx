@@ -110,7 +110,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 }}>
   
   {/* FILE BUTTON */}
-  <div style={{ position: "relative" gridTemplateColumns: "7, 1fr"}}>
+  <div style={{ position: "relative" gridTemplateColumns: "repeat(7, 1fr)"}}>
     <button
       onClick={() => setShowFileMenu(v => !v)}
       style={{
