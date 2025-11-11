@@ -34,7 +34,7 @@ export default function PixelGrid() {
     }}
   >
 
-    {/* LEFT COLOR PALETTE */}
+    /* LEFT COLOR PALETTE */
     <div
       style={{
         width: "8vw",
