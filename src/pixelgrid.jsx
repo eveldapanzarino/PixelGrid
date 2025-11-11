@@ -8,7 +8,6 @@ export default function PixelGrid() {
     "#3498db",
     "#e74c3c",
     "#2ecc71",
-    "#f1c40f",
     "#ffffff",
     "#000000",
   ]);
