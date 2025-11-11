@@ -94,11 +94,11 @@ const colors = ${data};
 
       {/* ✅ TOP BAR */}
       <div style={{
-        position: "absolute",
+        position: "block",
         top: 0,
         left: 0,
         width: "100vw",
-        height: "4vh",
+        height: "3vh",
         background: "#111",
         borderBottom: "0.3vw solid #444",
         display: "flex",
