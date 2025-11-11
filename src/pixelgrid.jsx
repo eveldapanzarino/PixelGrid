@@ -88,11 +88,12 @@ const colors = ${data};
     };
     reader.readAsText(file);
   }
+const [showFileMenu, setShowFileMenu] = useState(false);
 
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
 
-     {/* ✅ TOP BAR (no file controls now) */}
+   {/* ✅ TOP BAR */}
 <div style={{
   position: "absolute",
   top: 0,
@@ -105,28 +106,70 @@ const colors = ${data};
   alignItems: "center",
   padding: "0 1vw",
   gap: "1vw",
-  zIndex: 10
+  zIndex: 20
 }}>
-  <div style={{ color: "#aaa", fontSize: "1.2vw" }}>
-      {/* ✅ Save Button */}
-  <button
-    onClick={saveToHTML}
-    style={{
-      width: "100%",
-      padding: "0.5vw 1vw",
-      background: "#333",
-      color: "white",
-      borderRadius: "0.5vw",
-      border: "0.2vw solid #666",
-      cursor: "pointer",
-      fontSize: "0.9vw",
-      marginBottom: "1vw"
-    }}
-  >
-    Save
-  </button>
-  </div>
   
+  {/* FILE BUTTON */}
+  <div style={{ position: "relative" }}>
+    <button
+      onClick={() => setShowFileMenu(v => !v)}
+      style={{
+        background: "#222",
+        color: "white",
+        border: "0.2vw solid #555",
+        borderRadius: "0.5vw",
+        padding: "0.4vw 1vw",
+        cursor: "pointer",
+        fontSize: "1vw"
+      }}
+    >
+      File ▾
+    </button>
+
+    {/* DROPDOWN MENU */}
+    {showFileMenu && (
+      <div
+        style={{
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          background: "#222",
+          border: "0.25vw solid #555",
+          borderRadius: "0.5vw",
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          padding: "0.5vw 0",
+          marginTop: "0.4vw",
+          width: "10vw",
+          boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
+          zIndex: 30
+        }}
+      >
+        
+        {/* SAVE OPTION */}
+        <div
+          onClick={() => {
+            setShowFileMenu(false);
+            saveToHTML();
+          }}
+          style={{
+            padding: "0.8vw 1vw",
+            cursor: "pointer",
+            color: "white",
+            fontSize: "0.9vw",
+            borderBottom: "0.2vw solid #333"
+          }}
+        >
+          Save
+        </div>
+
+        {/* FUTURE OPTIONS (Load, Export PNG, etc) */}
+        <div style={{ padding: "0.8vw 1vw", color: "#666", fontSize: "0.9vw" }}>
+          (more soon)
+        </div>
+      </div>
+    )}
+  </div>
 </div>
 
      {/* SIDEBAR */}
