@@ -7,7 +7,7 @@ export default function PixelGrid() {
 
   useEffect(() => {
     function handleResize() {
-  }, []);
+  } []);
 
   
   const cellVW = size.w / 100; // px per 1vw
