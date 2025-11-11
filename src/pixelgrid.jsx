@@ -1,39 +1,39 @@
 import { useEffect, useState, useRef } from "react";
 
 export default function PixelGrid() {
-  // top bar uses a proportional viewport height (in vh)
- // top bar height as a proportion of viewport
+  // top bar height as a proportion of viewport (vh)
+  const TOPBAR_VH = 6;
+  const COLUMNS = 250;
 
-  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+  const [size, setSize] = useState(() => ({
+    w: typeof window !== "undefined" ? window.innerWidth : 1000,
+    h: typeof window !== "undefined" ? window.innerHeight : 800,
+  }));
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("#3498db");
-  const [swatches, setSwatches] = useState([
-    "#3498db",
-    "#e74c3c",
-    "#2ecc71",
-    "#ffffff",
-  ]);
+  const [swatches, setSwatches] = useState(["#3498db", "#e74c3c", "#2ecc71", "#ffffff"]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const drawingRef = useRef(null);
-  const [showFileMenu, setShowFileMenu] = useState(false);
 
   useEffect(() => {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
+    function handlePointerUp() {
+      setIsDrawing(false);
+    }
     window.addEventListener("resize", handleResize);
-    window.addEventListener("pointerup", () => setIsDrawing(false));
+    window.addEventListener("pointerup", handlePointerUp);
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("pointerup", () => setIsDrawing(false));
+      window.removeEventListener("pointerup", handlePointerUp);
     };
   }, []);
 
   const cellVW = size.w / 100;
-  // subtract top bar height (in px) from available height for rows
   const topbarPx = (TOPBAR_VH / 100) * size.h;
   const rows = Math.max(1, Math.floor((size.h - topbarPx) / cellVW));
-  const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
+  const totalPixels = COLUMNS * rows;
   const pixels = Array.from({ length: totalPixels });
 
   function paintPixel(e) {
@@ -52,100 +52,8 @@ export default function PixelGrid() {
     setColor(swatches[idx] || "#000000");
   }
 
-  function saveDrawingHTML() {
-    const el = drawingRef.current;
-    if (!el) return;
-    // Include the drawing area's outerHTML so inline styles and children are preserved
-    const html = `<body style="margin:0">${el.outerHTML}</body></html>`;
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `pixelgrid-${Date.now()}.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    setShowFileMenu(false);
-  }
-
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "7, 1fr", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {/* TOP BAR */}
-      <div
-        style={{
-          height: `3vh`,
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          alignItems: "center",
-          padding: "0 1vw",
-          background: "#111",
-          color: "#fff",
-          borderBottom: "0.2vw solid #333",
-          gap: "0.5rem",
-        }}
-      >
-        {/* Column 1 - File menu */}
-        <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
-          <button
-            type="button"
-            onClick={() => setShowFileMenu((s) => !s)}
-            style={{
-              background: "#222",
-              color: "#fff",
-              border: "0.15vw solid #444",
-              padding: "0.6vh 1vw",
-              cursor: "pointer",
-              borderRadius: "0.4vw",
-            }}
-          >
-            File
-          </button>
-          {showFileMenu && (
-            <div
-              style={{
-                position: "absolute",
-                top: "calc(100% + 6px)",
-                left: 0,
-                background: "#222",
-                border: "0.15vw solid #444",
-                padding: "0.5rem",
-                zIndex: 40,
-                minWidth: "10rem",
-                boxShadow: "0 6px 18px rgba(0,0,0,0.5)",
-              }}
-            >
-              <button
-                type="button"
-                onClick={saveDrawingHTML}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "left",
-                  background: "transparent",
-                  color: "#fff",
-                  border: "none",
-                  padding: "0.4rem 0.6rem",
-                  cursor: "pointer",
-                }}
-              >
-                Save HTML
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Columns 2..7 are placeholders for future controls */}
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-      </div>
-
-      {/* MAIN AREA */}
-      <div style={{ display: "flex", flex: 1 }}>
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
       {/* COLOR SIDEBAR */}
       <div
         style={{
@@ -208,8 +116,7 @@ export default function PixelGrid() {
         {/* Color Preview */}
         <div
           style={{
-            width: "6vh",
-            height: "6vh",
+            width: "10vh",
             background: color,
             border: "0.3vw solid #888",
             borderRadius: "1vw",
@@ -234,7 +141,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-            width: "9vh",
+            width: "6vh",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
@@ -249,12 +156,13 @@ export default function PixelGrid() {
         <button
           type="button"
           onClick={() => {
-            // Only add if there are less than 4 swatches
-            if (swatches.length < 4) {
-              setSwatches((prev) => [...prev, "#ffffff"]);
-              setSelectedIndex(swatches.length); // select the new one
+            if (swatches.length >= 4) return;
+            setSwatches((prev) => {
+              const next = [...prev, "#ffffff"];
+              setSelectedIndex(next.length - 1);
               setColor("#ffffff");
-            }
+              return next;
+            });
           }}
           style={{
             marginTop: "1vw",
@@ -271,34 +179,38 @@ export default function PixelGrid() {
           + Add
         </button>
       </div>
-        {/* DRAWING GRID */}
-        <div
-          ref={drawingRef}
-          style={{
-            flex: 1,
-            display: "grid",
-            gridTemplateColumns: `repeat(250, 1vw)`,
-            gridTemplateRows: `repeat(${rows}, 1vw)`,
-            userSelect: "none",
-            touchAction: "none",
-            height: "100%",
-          }}
-        >
-          {pixels.map((_, i) => (
-            <div
-              key={i}
-              onPointerDown={(e) => {
-                setIsDrawing(true);
-                paintPixel(e);
-              }}
-              onPointerEnter={(e) => {
-                if (isDrawing) paintPixel(e);
-              }}
-            />
-          ))}
-        </div>
+
+      {/* DRAWING GRID */}
+      <div
+        ref={drawingRef}
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: `repeat(${COLUMNS}, 1vw)`,
+          gridTemplateRows: `repeat(${rows}, 1vw)`,
+          userSelect: "none",
+          touchAction: "none",
+          height: "100%",
+        }}
+      >
+        {pixels.map((_, i) => (
+          <div
+            key={i}
+            onPointerDown={(e) => {
+              setIsDrawing(true);
+              paintPixel(e);
+            }}
+            onPointerEnter={(e) => {
+              if (isDrawing) paintPixel(e);
+            }}
+            style={{
+              width: "1vw",
+              height: "1vw",
+              boxSizing: "border-box",
+            }}
+          />
+        ))}
       </div>
     </div>
   );
-
 }
