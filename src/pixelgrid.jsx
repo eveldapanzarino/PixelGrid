@@ -1,9 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function PixelGrid() {
-  // top bar uses a proportional viewport height (in vh)
- // top bar height as a proportion of viewport
-
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("#3498db");
@@ -14,8 +11,13 @@ export default function PixelGrid() {
     "#ffffff",
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const drawingRef = useRef(null);
-  const [showFileMenu, setShowFileMenu] = useState(false);
+
+  const cellVW = size.w / 100;
+  const rows = Math.max(1, Math.floor(size.h / cellVW));
+  const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
+
+  // NEW: Pixel color state
+  const [pixelColors, setPixelColors] = useState(() => Array(totalPixels).fill("#000000"));
 
   useEffect(() => {
     function handleResize() {
@@ -29,16 +31,12 @@ export default function PixelGrid() {
     };
   }, []);
 
-  const cellVW = size.w / 100;
-  // subtract top bar height (in px) from available height for rows
-  const topbarPx = (TOPBAR_VH / 100) * size.h;
-  const rows = Math.max(1, Math.floor((size.h - topbarPx) / cellVW));
-  const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
-  const pixels = Array.from({ length: totalPixels });
-
-  function paintPixel(e) {
-    if (!e.target || !(e.target instanceof HTMLElement)) return;
-    e.target.style.background = color;
+  function paintPixel(e, index) {
+    setPixelColors((prev) => {
+      const copy = [...prev];
+      copy[index] = color;
+      return copy;
+    });
   }
 
   function normalizeHexInput(raw) {
@@ -52,106 +50,83 @@ export default function PixelGrid() {
     setColor(swatches[idx] || "#000000");
   }
 
-  function saveDrawingHTML() {
-    const el = drawingRef.current;
-    if (!el) return;
-    // Include the drawing area's outerHTML so inline styles and children are preserved
-    const html = `<body style="margin:0">${el.outerHTML}</body></html>`;
+  // ✅ SAVE FUNCTION
+  function saveToHTML() {
+    const data = JSON.stringify(pixelColors);
+    const html = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;background:black;">
+<div style="display:grid;grid-template-columns:repeat(250,10px);grid-auto-rows:10px;">
+${pixelColors.map(c => `<div style="width:10px;height:10px;background:${c}"></div>`).join("")}
+</div>
+<script>
+const colors = ${data};
+</script>
+</body>
+</html>`;
+
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `pixelgrid-${Date.now()}.html`;
-    document.body.appendChild(a);
+    a.download = "pixel-art.html";
     a.click();
-    a.remove();
     URL.revokeObjectURL(url);
-    setShowFileMenu(false);
+  }
+
+  // ✅ LOAD FUNCTION
+  function loadFromHTML(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target.result;
+      const match = text.match(/const colors = (\\[[^;]+\\])/);
+      if (match) {
+        const arr = JSON.parse(match[1]);
+        setPixelColors(arr);
+      }
+    };
+    reader.readAsText(file);
   }
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "7, 1fr", width: "100vw", height: "100vh", overflow: "hidden" }}>
-      {/* TOP BAR */}
-      <div
-        style={{
-          height: `3vh`,
-          display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
-          alignItems: "center",
-          padding: "0 1vw",
-          background: "#111",
-          color: "#fff",
-          borderBottom: "0.2vw solid #333",
-          gap: "0.5rem",
-        }}
-      >
-        {/* Column 1 - File menu */}
-        <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
-          <button
-            type="button"
-            onClick={() => setShowFileMenu((s) => !s)}
-            style={{
-              background: "#222",
-              color: "#fff",
-              border: "0.15vw solid #444",
-              padding: "0.6vh 1vw",
-              cursor: "pointer",
-              borderRadius: "0.4vw",
-            }}
-          >
-            File
-          </button>
-          {showFileMenu && (
-            <div
-              style={{
-                position: "absolute",
-                top: "calc(100% + 6px)",
-                left: 0,
-                background: "#222",
-                border: "0.15vw solid #444",
-                padding: "0.5rem",
-                zIndex: 40,
-                minWidth: "10rem",
-                boxShadow: "0 6px 18px rgba(0,0,0,0.5)",
-              }}
-            >
-              <button
-                type="button"
-                onClick={saveDrawingHTML}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "left",
-                  background: "transparent",
-                  color: "#fff",
-                  border: "none",
-                  padding: "0.4rem 0.6rem",
-                  cursor: "pointer",
-                }}
-              >
-                Save HTML
-              </button>
-            </div>
-          )}
-        </div>
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
 
-        {/* Columns 2..7 are placeholders for future controls */}
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
+      {/* ✅ TOP BAR */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "4vh",
+        background: "#111",
+        borderBottom: "0.3vw solid #444",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 1vw",
+        gap: "1vw",
+        zIndex: 10
+      }}>
+        <button onClick={saveToHTML} style={{ background: "#333", color: "white", padding: "0.5vw 1vw", borderRadius: "0.5vw", border: "0.2vw solid #666" }}>
+          Save
+        </button>
+        <input
+          type="file"
+          accept=".html"
+          onChange={(e) => loadFromHTML(e.target.files[0])}
+          style={{ color: "white" }}
+        />
       </div>
 
-      {/* MAIN AREA */}
-      <div style={{ display: "flex", flex: 1 }}>
-      {/* COLOR SIDEBAR */}
+      {/* SIDEBAR */}
       <div
         style={{
           width: "8vw",
           background: "#222",
-          padding: "1.5vw",
+          paddingTop: "5vh", // shifted down for top bar
+          paddingLeft: "1.5vw",
+          paddingRight: "1.5vw",
+          paddingBottom: "1.5vw",
           display: "flex",
           flexDirection: "column",
           gap: "1vw",
@@ -193,9 +168,6 @@ export default function PixelGrid() {
                 borderRadius: "50%",
                 background: "#900",
                 color: "#fff",
-                fontSize: "0.8vw",
-                lineHeight: "1.5vw",
-                textAlign: "center",
                 border: "none",
                 cursor: "pointer",
               }}
@@ -205,7 +177,6 @@ export default function PixelGrid() {
           </div>
         ))}
 
-        {/* Color Preview */}
         <div
           style={{
             width: "6vh",
@@ -217,7 +188,6 @@ export default function PixelGrid() {
           }}
         />
 
-        {/* Hex Input */}
         <input
           type="text"
           value={color}
@@ -245,14 +215,12 @@ export default function PixelGrid() {
           }}
         />
 
-        {/* Add Swatch */}
         <button
           type="button"
           onClick={() => {
-            // Only add if there are less than 4 swatches
             if (swatches.length < 4) {
               setSwatches((prev) => [...prev, "#ffffff"]);
-              setSelectedIndex(swatches.length); // select the new one
+              setSelectedIndex(swatches.length);
               setColor("#ffffff");
             }
           }}
@@ -271,34 +239,33 @@ export default function PixelGrid() {
           + Add
         </button>
       </div>
-        {/* DRAWING GRID */}
-        <div
-          ref={drawingRef}
-          style={{
-            flex: 1,
-            display: "grid",
-            gridTemplateColumns: `repeat(250, 1vw)`,
-            gridTemplateRows: `repeat(${rows}, 1vw)`,
-            userSelect: "none",
-            touchAction: "none",
-            height: "100%",
-          }}
-        >
-          {pixels.map((_, i) => (
-            <div
-              key={i}
-              onPointerDown={(e) => {
-                setIsDrawing(true);
-                paintPixel(e);
-              }}
-              onPointerEnter={(e) => {
-                if (isDrawing) paintPixel(e);
-              }}
-            />
-          ))}
-        </div>
+
+      {/* GRID */}
+      <div
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: `repeat(250, 1vw)`,
+          gridTemplateRows: `repeat(${rows}, 1vw)`,
+          userSelect: "none",
+          touchAction: "none",
+          paddingTop: "4vh", // shifted down for top bar
+        }}
+      >
+        {pixelColors.map((c, i) => (
+          <div
+            key={i}
+            style={{ background: c }}
+            onPointerDown={(e) => {
+              setIsDrawing(true);
+              paintPixel(e, i);
+            }}
+            onPointerEnter={() => {
+              if (isDrawing) paintPixel(null, i);
+            }}
+          />
+        ))}
       </div>
     </div>
   );
-
 }
