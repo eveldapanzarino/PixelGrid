@@ -2,7 +2,7 @@ return (
   <div
     style={{
       display: "flex",
-      width: "100vw",
+      width: "300px",
       height: "100vh",
       overflow: "hidden",
       background: "#111",
