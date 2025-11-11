@@ -188,7 +188,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     paddingLeft: "1vw",
     paddingRight: "1vw",
     paddingBottom: "1vw",
-    margin-top: "5vw",
+    margintop: "5vw",
     height: "100%",
     display: "flex",
     flexDirection: "column",
