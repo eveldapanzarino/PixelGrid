@@ -30,11 +30,11 @@ const totalPixels = 250 * rows * 1.2;
   return (
     <div style={{
       display: "grid", 
-      width: "8vw",
-        height: "100vh", 
+      width: "${size.w}",
+        height: "${size.h}", 
       background-color: "black", 
-      gridTemplateColumns: `repeat(1, 8vw)`,
-        gridTemplateRows: `repeat(5, 8vw) }} 
+      gridTemplateColumns: `repeat(1, 200px)`,
+        gridTemplateRows: `repeat(5, 200px) }} 
         >
        <div class="color-swatch"></div>
        <div class="color-swatch"></div>
@@ -44,7 +44,7 @@ const totalPixels = 250 * rows * 1.2;
     </div>
     <div
       style={{
-        width: "92vw",
+        width: "100vw",
         height: "100vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1.5vw)`,
