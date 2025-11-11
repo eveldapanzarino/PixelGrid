@@ -183,9 +183,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
      {/* SIDEBAR */}
 <div
   style={{
-    width: "5vw",
+    width: "6vh",
     background: "#222",
-    paddingTop: "3vh",
     paddingLeft: "1vw",
     paddingRight: "1vw",
     paddingBottom: "1vw",
@@ -207,8 +206,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       key={i}
       onClick={() => handleSwatchClick(i)}
       style={{
-        width: "3vw",
-        height: "3vw",
+        width: "5vh",
+        height: "5vh",
             marginLeft: ".5vw",
             marginRight: ".5vw",
         background: sw,
@@ -245,10 +244,10 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 
   <div
     style={{
-      width: "6vh",
-      height: "6vh",
-        marginLeft: ".5vw",
-          marginRight: ".5vw",
+      width: "5vh",
+      height: "5vh",
+        marginLeft: "1vw",
+          marginRight: "1vw",
       background: color,
       border: "0.3vw solid #888",
       borderRadius: "1vw",
