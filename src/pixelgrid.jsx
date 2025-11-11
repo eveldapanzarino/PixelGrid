@@ -99,7 +99,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   top: 0,
   left: 0,
   width: "100vw",
-  height: "7vh",
+  height: "7vw",
   background: "#ffffff",
   borderBottom: "0.3vw solid #444",
   display: "grid",
@@ -114,7 +114,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   <img src="/favicon-32x32.png" alt="favicon" style={{
     width: "3vw",
     height: "3vw",
-    textalign: "center",
+    justifyContent: "center",
   }} />
 </div>
 
