@@ -12,7 +12,7 @@ return (
     {/* LEFT COLOR PALETTE */}
     <div
       style={{
-        width: "70px",
+        width: "8vw",
         background: "#222",
         padding: "10px",
         display: "flex",
@@ -28,8 +28,8 @@ return (
             key={i}
             onClick={() => setColor(swatch)}
             style={{
-              width: "40px",
-              height: "40px",
+              width: "4.6vw",
+              height: "4.6vw",
               background: swatch,
               border: swatch === color ? "3px solid white" : "2px solid #666",
               borderRadius: "6px",
