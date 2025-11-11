@@ -230,6 +230,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           right: "-0.5vw",
           width: "1.5vw",
           height: "1.5vw",
+          marginLeft: ".5vw",
+          marginRight: ".5vw",
           borderRadius: "50%",
           background: "#900",
           color: "#fff",
