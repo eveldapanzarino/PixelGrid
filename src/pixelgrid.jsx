@@ -99,7 +99,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   top: 0,
   left: 0,
   width: "100vw",
-  height: "5vh",
+  height: "7vh",
   background: "#ffffff",
   borderBottom: "0.3vw solid #444",
   display: "grid",
