@@ -136,7 +136,7 @@ export default function PixelGrid() {
           onChange={handleHexChange}
           maxLength={7}
           style={{
-            width: "5vw",
+            width: "6vw",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
