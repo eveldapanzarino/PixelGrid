@@ -186,8 +186,8 @@ export default function PixelGrid() {
         style={{
           flex: 1,
           display: "grid",
-          gridTemplateColumns: `repeat(250, 1.5vw)`,
-          gridTemplateRows: `repeat(${rows}, 1.5vw)`,
+          gridTemplateColumns: `repeat(250, 1vw)`,
+          gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
         }}
