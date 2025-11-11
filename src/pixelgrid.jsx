@@ -39,7 +39,6 @@ export default function PixelGrid() {
         width: "8vw",
         background: "#222",
         padding: "10px",
-        display: "flex",
         display: "grid",
         flexDirection: "column",
         gap: "8px",
