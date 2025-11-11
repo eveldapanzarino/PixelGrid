@@ -45,7 +45,7 @@ return (
         onChange={(e) => setColor(e.target.value)}
         maxLength={7}
         style={{
-          width: "5vw",
+          width: "500px",
           marginTop: "10px",
           background: "#111",
           border: "1px solid #666",
