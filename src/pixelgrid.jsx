@@ -1,92 +1,143 @@
-return (
-  <div
-    style={{
-      display: "grid",
-      width: "100w",
-      height: "100vh",
-      overflow: "hidden",
-      background: "#111",
-    }}
-  >
+export default function PixelGrid() {
+  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [color, setColor] = useState("#3498db"); // default color
 
-    {/* LEFT COLOR PALETTE */}
-<div
-  style={{
-    width: "12vw",               // <-- responsive width
-        // <-- prevents too large on huge screens
-    background: "#222",
-    padding: "1vw",
-    display: "flex",
-    flexDirection: "column",
-    gap: "1vw",
-    alignItems: "center",
-    borderRight: "0.4vw solid #444",
-  }}
->
-  {["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#ffffff", "#000000"].map(
-    (swatch, i) => (
-      <div
-        key={i}
-        onClick={() => setColor(swatch)}
-        style={{
-          width: "6vw",
-          height: "6vw",
-          minWidth: "35px",
-          minHeight: "35px",
-          maxWidth: "80px",
-          maxHeight: "80px",
-          background: swatch,
-          border: swatch === color ? "0.4vw solid white" : "0.3vw solid #666",
-          borderRadius: "1vw",
-          cursor: "pointer",
-        }}
-      />
-    )
-  )}
+  const swatches = ["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#ffffff", "#000000"];
 
-  <input
-    type="text"
-    value={color}
-    onChange={(e) => setColor(e.target.value)}
-    maxLength={7}
-    style={{
-      width: "8vw",
-      minWidth: "50px",
-      maxWidth: "120px",
-      marginTop: "1vw",
-      background: "#111",
-      border: "0.3vw solid #666",
-      color: "white",
-      textAlign: "center",
-      borderRadius: "1vw",
-      fontSize: "2vw",
-    }}
-  />
-</div>
+  useEffect(() => {
+    function handleResize() {
+@@ -16,60 +19,89 @@ export default function PixelGrid() {
+    };
+  }, []);
 
-    {/* DRAWING GRID */}
+  
+  const cellVW = size.w / 100; // px per 1vw
+  const cellVW = size.w / 100;
+  const rows = Math.floor(size.h / cellVW);
+
+const totalPixels = 250 * rows * 1.2;
+  const totalPixels = 250 * rows * 1.2;
+  const pixels = Array.from({ length: totalPixels });
+
+  function paintPixel(e) {
+    e.target.style.background = "blue";
+    e.target.style.background = color;
+  }
+
+  return (
+    <div style={{
+      display: "grid", 
+      width: "${size.w}",
+        height: "${size.h}", 
+      background-color: "black", 
+      gridTemplateColumns: `repeat(1, 200px)`,
+        gridTemplateRows: `repeat(5, 200px) }} 
+        >
+       <div class="color-swatch"></div>
+       <div class="color-swatch"></div>
+       <div class="color-swatch"></div>
+      <div class="add-color"></div>
+      <div class="hex-field"></div>
+    </div>
     <div
       style={{
-        flex: 1,
+        width: "50vw",
+        height: "50vh",
         display: "grid",
         gridTemplateColumns: `repeat(250, 1.5vw)`,
         gridTemplateRows: `repeat(${rows}, 1.5vw)`,
         userSelect: "none",
-        touchAction: "none",
+        touchAction: "none", // IMPORTANT for mobile drawing
       }}
     >
       {pixels.map((_, i) => (
         <div
           key={i}
+          id={`pixel-${i}`}
+          className="pixelgrid"
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
+
+      {/* --- COLOR SWATCH PANEL --- */}
+      <div
+        style={{
+          width: "70px",
+          background: "#222",
+          padding: "10px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          alignItems: "center",
+          borderRight: "2px solid #444",
+        }}
+      >
+        {swatches.map((sw, index) => (
+          <div
+            key={index}
+            onClick={() => setColor(sw)}
+            style={{
+              width: "40px",
+              height: "40px",
+              background: sw,
+              border: sw === color ? "3px solid white" : "2px solid #666",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          />
+        ))}
+
+        {/* Hex Input */}
+        <input
+          type="text"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          maxLength={7}
+          style={{
+            background: "white"
+          }}
           onPointerDown={(e) => {
             setIsDrawing(true);
             paintPixel(e);
           }}
           onPointerEnter={(e) => {
             if (isDrawing) paintPixel(e);
+            width: "60px",
+            marginTop: "10px",
+            background: "#111",
+            border: "1px solid #666",
+            color: "white",
+            textAlign: "center",
+            borderRadius: "4px",
+            fontSize: "12px",
           }}
         />
       ))}
+      </div>
+
+      {/* --- PIXEL GRID --- */}
+      <div
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: `repeat(250, 1.5vw)`,
+          gridTemplateRows: `repeat(${rows}, 1.5vw)`,
+          userSelect: "none",
+          touchAction: "none",
+        }}
+      >
+        {pixels.map((_, i) => (
+          <div
+            key={i}
+            onPointerDown={(e) => {
+              setIsDrawing(true);
+              paintPixel(e);
+            }}
+            onPointerEnter={(e) => {
+              if (isDrawing) paintPixel(e);
+            }}
+          />
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+}
