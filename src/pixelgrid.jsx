@@ -63,20 +63,23 @@ export default function PixelGrid() {
           borderRight: "0.4vw solid #444",
         }}
       >
-        {swatches.map((sw, i) => (
-          <div
-            key={i}
-            onClick={() => handleSwatchClick(i)}
-            style={{
-              width: "6vw",
-              height: "6vh",
-              background: sw,
-              border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-              borderRadius: "1vw",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
+{swatches.map((sw, i) => {
+  const uniqueIndex = i % 4; // Only 0, 1, 2, 3
+  return (
+    <div
+      key={i}
+      onClick={() => handleSwatchClick(uniqueIndex)}
+      style={{
+        width: "6vw",
+        height: "6vw",
+        background: sw,
+        border: uniqueIndex === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+        borderRadius: "1vw",
+        cursor: "pointer",
+        position: "relative",
+      }}
+    >
+
             <button
               type="button"
               onClick={(e) => {
