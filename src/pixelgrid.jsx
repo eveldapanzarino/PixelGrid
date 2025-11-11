@@ -10,54 +10,60 @@ return (
   >
 
     {/* LEFT COLOR PALETTE */}
-    <div
-      style={{
-        width: "80px",
-        background: "#222",
-        padding: "10px",
-        grid-template-columns: "1, 100px",
-    grid-template-rows: 9
-    
-        flexDirection: "column",
-        gap: "8px",
-        alignItems: "center",
-        borderRight: "2px solid #444",
-      }}
-    >
-      {["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#ffffff", "#000000"].map(
-        (swatch, i) => (
-          <div
-            key={i}
-            onClick={() => setColor(swatch)}
-            style={{
-              width: "4.6px",
-              height: "4.6px",
-              background: swatch,
-              border: swatch === color ? "3px solid white" : "2px solid #666",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          />
-        )
-      )}
-
-      <input
-        type="text"
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
-        maxLength={7}
+<div
+  style={{
+    width: "12vw",               // <-- responsive width
+    minWidth: "60px",            // <-- prevents too small on tiny screens
+    maxWidth: "140px",           // <-- prevents too large on huge screens
+    background: "#222",
+    padding: "1vw",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1vw",
+    alignItems: "center",
+    borderRight: "0.4vw solid #444",
+  }}
+>
+  {["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#ffffff", "#000000"].map(
+    (swatch, i) => (
+      <div
+        key={i}
+        onClick={() => setColor(swatch)}
         style={{
-          width: "500px",
-          marginTop: "10px",
-          background: "#111",
-          border: "1px solid #666",
-          color: "white",
-          textAlign: "center",
-          borderRadius: "4px",
-          fontSize: "12px",
+          width: "6vw",
+          height: "6vw",
+          minWidth: "35px",
+          minHeight: "35px",
+          maxWidth: "80px",
+          maxHeight: "80px",
+          background: swatch,
+          border: swatch === color ? "0.4vw solid white" : "0.3vw solid #666",
+          borderRadius: "1vw",
+          cursor: "pointer",
         }}
       />
-    </div>
+    )
+  )}
+
+  <input
+    type="text"
+    value={color}
+    onChange={(e) => setColor(e.target.value)}
+    maxLength={7}
+    style={{
+      width: "8vw",
+      minWidth: "50px",
+      maxWidth: "120px",
+      marginTop: "1vw",
+      background: "#111",
+      border: "0.3vw solid #666",
+      color: "white",
+      textAlign: "center",
+      borderRadius: "1vw",
+      fontSize: "2vw",
+    }}
+  />
+</div>
 
     {/* DRAWING GRID */}
     <div
