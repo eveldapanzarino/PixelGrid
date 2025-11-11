@@ -44,19 +44,34 @@ export default function PixelGrid() {
           borderRight: "2px solid #444",
         }}
       >
-        {swatches.map((sw, index) => (
-          <div
-            key={index}
-            onClick={() => setColor(sw)}
-            style={{
-              width: "40px",
-              height: "40px",
-              background: sw,
-              border: sw === color ? "3px solid white" : "2px solid #666",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
-          />
+      {swatches.map((sw, index) => (
+  <div
+    key={index}
+    onClick={() => setColor(sw)}
+    style={{
+      width: "40px",
+      height: "40px",
+      background: sw,
+      border: sw.toLowerCase() === color.toLowerCase()
+        ? "3px solid white"
+        : "2px solid #666",
+      borderRadius: "6px",
+      cursor: "pointer",
+    }}
+  />
+))}
+
+{/* Show the currently selected color as a dynamic swatch */}
+<div
+  style={{
+    width: "40px",
+    height: "40px",
+    background: color,
+    border: "3px solid white",
+    borderRadius: "6px",
+    marginTop: "10px",
+  }}
+/>
         ))}
 
         {/* Hex Input */}
