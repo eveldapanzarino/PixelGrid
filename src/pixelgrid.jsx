@@ -92,153 +92,184 @@ const colors = ${data};
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
 
-      {/* ✅ TOP BAR */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "4vh",
-        background: "#111",
-        borderBottom: "0.3vw solid #444",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 1vw",
-        gap: "1vw",
-        zIndex: 10
-      }}>
-        <button onClick={saveToHTML} style={{ background: "#333", color: "white", padding: "0.5vw 1vw", borderRadius: "0.5vw", border: "0.2vw solid #666" }}>
-          Save
-        </button>
-        <input
-          type="file"
-          accept=".html"
-          onChange={(e) => loadFromHTML(e.target.files[0])}
-          style={{ color: "white" }}
-        />
-      </div>
+     {/* ✅ TOP BAR (no file controls now) */}
+<div style={{
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "4vh",
+  background: "#111",
+  borderBottom: "0.3vw solid #444",
+  display: "flex",
+  alignItems: "center",
+  padding: "0 1vw",
+  gap: "1vw",
+  zIndex: 10
+}}>
+  <div style={{ color: "#aaa", fontSize: "1.2vw" }}>Pixel Art</div>
+</div>
 
-      {/* SIDEBAR */}
-      <div
+     {/* SIDEBAR */}
+<div
+  style={{
+    width: "8vw",
+    background: "#222",
+    paddingTop: "5vh",
+    paddingLeft: "1.5vw",
+    paddingRight: "1.5vw",
+    paddingBottom: "1.5vw",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1vw",
+    alignItems: "center",
+    borderRight: "0.4vw solid #444",
+  }}
+>
+  {/* ✅ Save Button */}
+  <button
+    onClick={saveToHTML}
+    style={{
+      width: "100%",
+      padding: "0.5vw 1vw",
+      background: "#333",
+      color: "white",
+      borderRadius: "0.5vw",
+      border: "0.2vw solid #666",
+      cursor: "pointer",
+      fontSize: "0.9vw",
+      marginBottom: "1vw"
+    }}
+  >
+    Save File
+  </button>
+
+  {/* ✅ Load Button + Hidden File Input */}
+  <input
+    id="fileLoader"
+    type="file"
+    accept=".html"
+    onChange={(e) => loadFromHTML(e.target.files[0])}
+    style={{ display: "none" }}
+  />
+  <button
+    onClick={() => document.getElementById("fileLoader").click()}
+    style={{
+      width: "100%",
+      padding: "0.5vw 1vw",
+      background: "#333",
+      color: "white",
+      borderRadius: "0.5vw",
+      border: "0.2vw solid #666",
+      cursor: "pointer",
+      fontSize: "0.9vw",
+      marginBottom: "2vw"
+    }}
+  >
+    Load File
+  </button>
+
+  {swatches.map((sw, i) => (
+    <div
+      key={i}
+      onClick={() => handleSwatchClick(i)}
+      style={{
+        width: "6vh",
+        height: "6vh",
+        background: sw,
+        border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+        borderRadius: "1vw",
+        cursor: "pointer",
+        position: "relative",
+      }}
+    >
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+          if (selectedIndex === i) setSelectedIndex(null);
+        }}
         style={{
-          width: "8vw",
-          background: "#222",
-          paddingTop: "5vh", // shifted down for top bar
-          paddingLeft: "1.5vw",
-          paddingRight: "1.5vw",
-          paddingBottom: "1.5vw",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1vw",
-          alignItems: "center",
-          borderRight: "0.4vw solid #444",
+          position: "absolute",
+          top: "-0.5vw",
+          right: "-0.5vw",
+          width: "1.5vw",
+          height: "1.5vw",
+          borderRadius: "50%",
+          background: "#900",
+          color: "#fff",
+          border: "none",
+          cursor: "pointer",
         }}
       >
-        {swatches.map((sw, i) => (
-          <div
-            key={i}
-            onClick={() => handleSwatchClick(i)}
-            style={{
-              width: "6vh",
-              height: "6vh",
-              background: sw,
-              border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-              borderRadius: "1vw",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSwatches((prev) => prev.filter((_, idx) => idx !== i));
-                if (selectedIndex === i) setSelectedIndex(null);
-              }}
-              style={{
-                position: "absolute",
-                top: "-0.5vw",
-                right: "-0.5vw",
-                width: "1.5vw",
-                height: "1.5vw",
-                minWidth: "12px",
-                minHeight: "12px",
-                maxWidth: "20px",
-                maxHeight: "20px",
-                borderRadius: "50%",
-                background: "#900",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              ×
-            </button>
-          </div>
-        ))}
+        ×
+      </button>
+    </div>
+  ))}
 
-        <div
-          style={{
-            width: "6vh",
-            height: "6vh",
-            background: color,
-            border: "0.3vw solid #888",
-            borderRadius: "1vw",
-            marginTop: "6px",
-          }}
-        />
+  <div
+    style={{
+      width: "6vh",
+      height: "6vh",
+      background: color,
+      border: "0.3vw solid #888",
+      borderRadius: "1vw",
+      marginTop: "6px",
+    }}
+  />
 
-        <input
-          type="text"
-          value={color}
-          onChange={(e) => {
-            const normalized = normalizeHexInput(e.target.value);
-            setColor(normalized);
-            if (selectedIndex != null) {
-              setSwatches((prev) => {
-                const copy = [...prev];
-                copy[selectedIndex] = normalized;
-                return copy;
-              });
-            }
-          }}
-          maxLength={7}
-          style={{
-            width: "9vh",
-            marginTop: "1vw",
-            background: "#111",
-            border: "0.3vw solid #666",
-            color: "white",
-            textAlign: "center",
-            borderRadius: "1vw",
-            fontSize: "1vw",
-          }}
-        />
+  <input
+    type="text"
+    value={color}
+    onChange={(e) => {
+      const normalized = normalizeHexInput(e.target.value);
+      setColor(normalized);
+      if (selectedIndex != null) {
+        setSwatches((prev) => {
+          const copy = [...prev];
+          copy[selectedIndex] = normalized;
+          return copy;
+        });
+      }
+    }}
+    maxLength={7}
+    style={{
+      width: "9vh",
+      marginTop: "1vw",
+      background: "#111",
+      border: "0.3vw solid #666",
+      color: "white",
+      textAlign: "center",
+      borderRadius: "1vw",
+      fontSize: "1vw",
+    }}
+  />
 
-        <button
-          type="button"
-          onClick={() => {
-            if (swatches.length < 4) {
-              setSwatches((prev) => [...prev, "#ffffff"]);
-              setSelectedIndex(swatches.length);
-              setColor("#ffffff");
-            }
-          }}
-          style={{
-            marginTop: "1vw",
-            padding: "0.5vw 1vw",
-            background: "#333",
-            color: "#fff",
-            border: "0.3vw solid #666",
-            borderRadius: "1vw",
-            cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
-            opacity: swatches.length >= 4 ? 0.5 : 1,
-            fontSize: "0.9vw",
-          }}
-        >
-          + Add
-        </button>
-      </div>
+  <button
+    type="button"
+    onClick={() => {
+      if (swatches.length < 4) {
+        setSwatches((prev) => [...prev, "#ffffff"]);
+        setSelectedIndex(swatches.length);
+        setColor("#ffffff");
+      }
+    }}
+    style={{
+      marginTop: "1vw",
+      padding: "0.5vw 1vw",
+      background: "#333",
+      color: "#fff",
+      border: "0.3vw solid #666",
+      borderRadius: "1vw",
+      cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
+      opacity: swatches.length >= 4 ? 0.5 : 1,
+      fontSize: "0.9vw",
+    }}
+  >
+    + Add
+  </button>
+</div>
 
       {/* GRID */}
       <div
