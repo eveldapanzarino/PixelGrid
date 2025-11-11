@@ -58,7 +58,6 @@ export default function PixelGrid() {
           gap: "1vw",
           alignItems: "center",
           borderRight: "0.4vw solid #444",
-          overflowY: "auto", // scroll if more content
         }}
       >
         {swatches.map((sw, i) => (
