@@ -207,8 +207,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       key={i}
       onClick={() => handleSwatchClick(i)}
       style={{
-        width: "6vh",
-        height: "6vh",
+        width: "3vw",
+        height: "3vw",
             marginLeft: ".5vw",
             marginRight: ".5vw",
         background: sw,
