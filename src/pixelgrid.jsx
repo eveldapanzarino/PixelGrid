@@ -28,7 +28,7 @@ export default function PixelGrid() {
       display: "grid", 
       width: "12vw",
         height: "100vw", 
-      background-color: "black", 
+      background: "black", 
       gridTemplateColumns: `repeat(1, 200px)`,
         gridTemplateRows: `repeat(5, 200px) }} 
         >
