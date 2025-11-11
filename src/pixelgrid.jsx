@@ -114,7 +114,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   <img src="/favicon-32x32.png" alt="favicon" style={{
     width: "3vw",
     height: "3vw",
-    text-align: "center",
+    textalign: "center",
   }} />
 </div>
 
