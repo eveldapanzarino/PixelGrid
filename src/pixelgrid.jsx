@@ -61,9 +61,8 @@ export default function PixelGrid() {
     flexDirection: "column",
     gap: "1vw",
     alignItems: "center",
-    borderRight: "0.4vw solid #444",
-    maxHeight: "100vh",       // limit sidebar to viewport height
-    overflowY: "auto",        // enable vertical scrolling
+    borderRight: "0.4vw solid #444",       // limit sidebar to viewport height
+    overflowX: "auto",        // enable vertical scrolling
     boxSizing: "border-box",  // include padding in height
     paddingRight: "0.8vw",    // optional, avoid overlap with scrollbar
   }}
