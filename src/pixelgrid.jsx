@@ -1,135 +1,124 @@
+import { useEffect, useState } from "react";
 
-{/* COLOR SIDEBAR */}
-<div
-  style={{
-    width: "8vw",
-    minWidth: "60px",
-    maxWidth: "140px",
-    background: "#222",
-    padding: "1.5vw",
-    display: "flex",
-    flexDirection: "column",
-    gap: "1vw",
-    alignItems: "center",
-    borderRight: "0.4vw solid #444",
-  }}
->
-  {swatches.map((sw, i) => (
-    <div
-      key={i}
-      onClick={() => handleSwatchClick(i)}
-      style={{
-        width: "6vw",
-        height: "6vw",
-        minWidth: "35px",
-        minHeight: "35px",
-        maxWidth: "80px",
-        maxHeight: "80px",
-        background: sw,
-        border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-        borderRadius: "1vw",
-        cursor: "pointer",
-        position: "relative",
-      }}
-    >
-      {/* Optional remove button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setSwatches((prev) => prev.filter((_, idx) => idx !== i));
-          if (selectedIndex === i) setSelectedIndex(null);
-        }}
+export default function PixelGrid() {
+  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [color, setColor] = useState("#3498db"); // default color
+
+  const swatches = ["#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#ffffff", "#000000"];
+
+  useEffect(() => {
+    function handleResize() {
+      setSize({ w: window.innerWidth, h: window.innerHeight });
+    }
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("pointerup", () => setIsDrawing(false));
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("pointerup", () => setIsDrawing(false));
+    };
+  }, []);
+
+  const cellVW = size.w / 100;
+  const rows = Math.floor(size.h / cellVW);
+  const totalPixels = 250 * rows * 1.2;
+  const pixels = Array.from({ length: totalPixels });
+
+  function paintPixel(e) {
+    e.target.style.background = color;
+  }
+
+  return (
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
+
+      {/* --- COLOR SWATCH PANEL --- */}
+      <div
         style={{
-          position: "absolute",
-          top: "-0.5vw",
-          right: "-0.5vw",
-          width: "1.5vw",
-          height: "1.5vw",
-          minWidth: "12px",
-          minHeight: "12px",
-          maxWidth: "20px",
-          maxHeight: "20px",
-          borderRadius: "50%",
-          background: "#900",
-          color: "#fff",
-          fontSize: "0.8vw",
-          lineHeight: "1.5vw",
-          textAlign: "center",
-          border: "none",
-          cursor: "pointer",
+          width: "8vw",
+          background: "#222",
+          padding: "1vw",
+          display: "grid",
+          grid-template-columns: 1, 8vw,
+      grid-template-rows: 7, 8vw,
+          flexDirection: "column",
+          gap: "8px",
+          alignItems: "center",
+          borderRight: "2px solid #444",
         }}
       >
-        ×
-      </button>
-    </div>
-  ))}
-
-  {/* Dynamic preview of current color */}
+      {swatches.map((sw, index) => (
   <div
+    key={index}
+    onClick={() => setColor(sw)}
     style={{
       width: "6vw",
-      height: "6vw",
-      minWidth: "35px",
-      minHeight: "35px",
-      maxWidth: "80px",
-      maxHeight: "80px",
-      background: color,
-      border: "0.3vw solid #888",
-      borderRadius: "1vw",
-      marginTop: "6px",
-    }}
-  />
-
-  {/* Hex Input */}
-  <input
-    type="text"
-    value={color}
-    onChange={(e) => {
-      const raw = e.target.value;
-      const normalized = normalizeHexInput(raw);
-      setColor(normalized);
-      // Update selected swatch live
-      if (selectedIndex != null) {
-        setSwatches((prev) => {
-          const copy = [...prev];
-          copy[selectedIndex] = normalized;
-          return copy;
-        });
-      }
-    }}
-    maxLength={7}
-    style={{
-      width: "6vw",
-      marginTop: "1vw",
-      background: "#111",
-      border: "0.3vw solid #666",
-      color: "white",
-      textAlign: "center",
-      borderRadius: "1vw",
-      fontSize: "1vw",
-    }}
-  />
-
-  {/* Add new swatch */}
-  <button
-    onClick={() => {
-      setSwatches((prev) => [...prev, "#ffffff"]);
-      setSelectedIndex(swatches.length);
-      setColor("#ffffff");
-    }}
-    style={{
-      marginTop: "1vw",
-      padding: "0.5vw 1vw",
-      background: "#333",
-      color: "#fff",
-      border: "0.3vw solid #666",
-      borderRadius: "1vw",
+      height: "6vh",
+      background: sw,
+      border: sw.toLowerCase() === color.toLowerCase()
+        ? "3px solid white"
+        : "2px solid #666",
+      borderRadius: "6px",
       cursor: "pointer",
-      fontSize: "0.9vw",
     }}
-  >
-    + Add
-  </button>
-</div>
+  />
+))}
 
+{/* Show the currently selected color as a dynamic swatch */}
+<div
+  style={{
+    width: "6vw",
+    height: "6vh",
+    background: color,
+    border: "3px solid white",
+    borderRadius: "6px",
+    marginTop: "10px",
+  }}
+/>
+        ))}
 
+        {/* Hex Input */}
+        <input
+          type="text"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          maxLength={7}
+          style={{
+            width: "6vw",
+            marginTop: "10px",
+            background: "#111",
+            border: "1px solid #666",
+            color: "white",
+            textAlign: "center",
+            borderRadius: "4px",
+            fontSize: "12px",
+          }}
+        />
+      </div>
+
+      {/* --- PIXEL GRID --- */}
+      <div
+        style={{
+         
+          display: "grid",
+          gridTemplateColumns: `repeat(250, 1vw)`,
+          gridTemplateRows: `repeat(${rows}, 1vw)`,
+          userSelect: "none",
+          touchAction: "none",
+        }}
+      >
+        {pixels.map((_, i) => (
+          <div
+            key={i}
+            onPointerDown={(e) => {
+              setIsDrawing(true);
+              paintPixel(e);
+            }}
+            onPointerEnter={(e) => {
+              if (isDrawing) paintPixel(e);
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
