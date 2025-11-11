@@ -9,7 +9,6 @@ export default function PixelGrid() {
     "#e74c3c",
     "#2ecc71",
     "#ffffff",
-    "#000000",
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -59,62 +58,58 @@ export default function PixelGrid() {
           gap: "1vw",
           alignItems: "center",
           borderRight: "0.4vw solid #444",
-          
         }}
       >
-        {swatches.map((sw, i) => {
-          const uniqueIndex = i % 4; // Only 0,1,2,3
-          return (
-            <div
-              key={i}
-              onClick={() => handleSwatchClick(uniqueIndex)}
+        {swatches.map((sw, i) => (
+          <div
+            key={i}
+            onClick={() => handleSwatchClick(i)}
+            style={{
+              width: "6vh",
+              height: "6vh",
+              background: sw,
+              border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+              borderRadius: "1vw",
+              cursor: "pointer",
+              position: "relative",
+            }}
+          >
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+                if (selectedIndex === i) setSelectedIndex(null);
+              }}
               style={{
-                width: "6vh",
-                height: "6vh",
-                background: sw,
-                border: "0.4vw solid white",
-                borderRadius: "1vw",
+                position: "absolute",
+                top: "-0.5vw",
+                right: "-0.5vw",
+                width: "1.5vw",
+                height: "1.5vw",
+                minWidth: "12px",
+                minHeight: "12px",
+                maxWidth: "20px",
+                maxHeight: "20px",
+                borderRadius: "50%",
+                background: "#900",
+                color: "#fff",
+                fontSize: "0.8vw",
+                lineHeight: "1.5vw",
+                textAlign: "center",
+                border: "none",
                 cursor: "pointer",
-                position: "relative",
               }}
             >
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSwatches((prev) => prev.filter((_, idx) => idx !== i));
-                  if (selectedIndex === uniqueIndex) setSelectedIndex(null);
-                }}
-                style={{
-                  position: "absolute",
-                  top: "-0.5vw",
-                  right: "-0.5vw",
-                  width: "1.5vw",
-                  height: "1.5vw",
-                  minWidth: "12px",
-                  minHeight: "12px",
-                  maxWidth: "20px",
-                  maxHeight: "20px",
-                  borderRadius: "50%",
-                  background: "#900",
-                  color: "#fff",
-                  fontSize: "0.8vw",
-                  lineHeight: "1.5vw",
-                  textAlign: "center",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                ×
-              </button>
-            </div>
-          );
-        })}
+              ×
+            </button>
+          </div>
+        ))}
 
         {/* Color Preview */}
         <div
           style={{
-            width: "10vh",
+            width: "6vh",
             height: "6vh",
             background: color,
             border: "0.3vw solid #888",
@@ -140,7 +135,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-            width: "6vh",
+            width: "9vh",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
@@ -155,9 +150,12 @@ export default function PixelGrid() {
         <button
           type="button"
           onClick={() => {
-            setSwatches((prev) => [...prev, "#ffffff"]);
-            setSelectedIndex(swatches.length % 4);
-            setColor("#ffffff");
+            // Only add if there are less than 4 swatches
+            if (swatches.length < 4) {
+              setSwatches((prev) => [...prev, "#ffffff"]);
+              setSelectedIndex(swatches.length); // select the new one
+              setColor("#ffffff");
+            }
           }}
           style={{
             marginTop: "1vw",
@@ -166,7 +164,8 @@ export default function PixelGrid() {
             color: "#fff",
             border: "0.3vw solid #666",
             borderRadius: "1vw",
-            cursor: "pointer",
+            cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
+            opacity: swatches.length >= 4 ? 0.5 : 1,
             fontSize: "0.9vw",
           }}
         >
@@ -198,10 +197,6 @@ export default function PixelGrid() {
           />
         ))}
       </div>
-    </div>
-  );
-}
-
     </div>
   );
 }
