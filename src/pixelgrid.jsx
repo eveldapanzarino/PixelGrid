@@ -110,7 +110,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 }}>
   
   {/* FILE BUTTON */}
-  <div style={{ position: "relative" }}>
+  <div style={{ position: "relative" gridTemplateColumns: "7, 1fr"}}>
     <button
       onClick={() => setShowFileMenu(v => !v)}
       style={{
@@ -118,7 +118,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
         color: "white",
         border: "0.2vw solid #555",
         borderRadius: "0.5vw",
-        padding: "0.4vw 1vw",
+        
         cursor: "pointer",
         fontSize: "1vw"
       }}
@@ -137,9 +137,10 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           border: "0.25vw solid #555",
           borderRadius: "0.5vw",
           display: "grid",
-          gridTemplateColumns: "repeat(7, 8vw)",
+          gridTemplateColumns: "7, 8vw",
+          padding: "0.5vw 0",
           marginTop: "0.4vw",
-         
+          width: "10vw",
           boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
           zIndex: 30
         }}
