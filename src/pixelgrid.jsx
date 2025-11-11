@@ -141,7 +141,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-            width: "6vw",
+            width: "6vh",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
