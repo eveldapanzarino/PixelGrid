@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 
 export default function PixelGrid() {
   // top bar uses a proportional viewport height (in vh)
-  const TOPBAR_VH = 8; // top bar height as a proportion of viewport
+ // top bar height as a proportion of viewport
 
   const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDrawing, setIsDrawing] = useState(false);
@@ -74,7 +74,7 @@ export default function PixelGrid() {
       {/* TOP BAR */}
       <div
         style={{
-          height: `${TOPBAR_VH}vh`,
+          height: `3vh`,
           display: "grid",
           gridTemplateColumns: "repeat(7, 1fr)",
           alignItems: "center",
