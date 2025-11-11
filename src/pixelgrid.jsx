@@ -28,14 +28,14 @@ const totalPixels = 250 * rows * 1.2;
   }
 
   return (
-    <div style=
+    <div style={{
       display: "grid", 
       width: "8vw",
         height: "100vh", 
       background-color: "black", 
       gridTemplateColumns: `repeat(1, 8vw)`,
-        gridTemplateRows: `repeat(5, 8vw) } 
-        class="color-palette">
+        gridTemplateRows: `repeat(5, 8vw) }} 
+        >
        <div class="color-swatch"></div>
        <div class="color-swatch"></div>
        <div class="color-swatch"></div>
