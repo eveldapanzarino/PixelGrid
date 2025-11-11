@@ -137,7 +137,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           border: "0.25vw solid #555",
           borderRadius: "0.5vw",
           display: "grid",
-          gridTemplateColumns: "7, 8vw",
+          gridTemplateColumns: "repeat(7, 8vw)",
           marginTop: "0.4vw",
          
           boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
