@@ -114,7 +114,7 @@ export default function PixelGrid() {
         {/* Color Preview */}
         <div
           style={{
-            width: "6vh",
+            width: "10vh",
             height: "6vh",
             background: color,
             border: "0.3vw solid #888",
