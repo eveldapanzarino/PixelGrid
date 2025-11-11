@@ -86,7 +86,7 @@ export default function PixelGrid() {
           minWidth: "60px",
           maxWidth: "140px",
           background: "#222",
-          padding: "2vw",
+          padding: "3vw",
           display: "flex",
           flexDirection: "column",
           gap: "1vw",
@@ -136,7 +136,7 @@ export default function PixelGrid() {
           onChange={handleHexChange}
           maxLength={7}
           style={{
-            width: "6vw",
+            width: "10vw",
             minWidth: "50px",
             maxWidth: "120px",
             marginTop: "1vw",
