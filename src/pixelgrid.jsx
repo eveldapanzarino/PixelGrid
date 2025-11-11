@@ -182,14 +182,14 @@ const [showFileMenu, setShowFileMenu] = useState(false);
      {/* SIDEBAR */}
 <div
   style={{
-    width: "8vw",
+    width: "5vw",
     background: "#222",
     paddingTop: "3vh",
     paddingLeft: "1vw",
     paddingRight: "1vw",
     paddingBottom: "1vw",
-position: "relative",
-   margin-top: "5vw",
+    position: "relative",
+    marginTop: "5vw",
     display: "inline-grid",
     flexDirection: "column",
     gap: "1vw",
@@ -208,6 +208,8 @@ position: "relative",
       style={{
         width: "6vh",
         height: "6vh",
+            marginLeft: ".5vw",
+            marginRight: ".5vw",
         background: sw,
         border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
         borderRadius: "1vw",
