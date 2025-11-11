@@ -103,26 +103,34 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   background: "#111",
   borderBottom: "0.3vw solid #444",
   display: "grid",
-  gridTemplateColumns: "repeat(15, 7.5vw)",
+  gridTemplateColumns: "repeat(12, 8.35vw)",
   alignItems: "center",
 
   zIndex: 20
 }}>
   
+<div >
+  <img src='/public/favicon-32x32.png' style={{
+    width: "1vw",
+    height: "1vw"
+  }}
+    />
+</div>
+
   {/* FILE BUTTON */}
-  <div style={{ position: "relative", gridtemplatecolumns: "repeat(7, 1fr)"}}>
+  <div style={{ position: "relative", }}>
     <button
       onClick={() => setShowFileMenu(v => !v)}
       style={{
         background: "#222",
         color: "white",
         border: "0.2vw solid #555",
-        
+        width: "100%",
         cursor: "pointer",
-        fontSize: "1vw"
+        fontSize: "2vw"
       }}
     >
-      File ▾
+      File
     </button>
 
     {/* DROPDOWN MENU */}
