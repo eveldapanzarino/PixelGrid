@@ -60,7 +60,7 @@ export default function PixelGrid() {
           gap: "1vw",
           alignItems: "center",
           borderRight: "0.4vw solid #444",
-          overflowY: "auto", // enable vertical scroll
+          
         }}
       >
         {swatches.map((sw, i) => {
