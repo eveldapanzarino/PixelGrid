@@ -84,7 +84,7 @@ export default function PixelGrid() {
       />
     </div>
 
-    {/* DRAWING GRID */}
+    /* DRAWING GRID */
     <div
       style={{
         flex: 1,
