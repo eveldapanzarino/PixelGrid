@@ -103,7 +103,6 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   background: "#ffffff",
   borderBottom: "0.3vw solid #444",
   display: "grid",
-  gridTemplateColumns: "repeat(12, 8.35vw)",
   alignItems: "center",
     gridTemplateColumns: "repeat(12, 7.2vw)",
   zIndex: 20
