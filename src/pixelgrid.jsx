@@ -7,8 +7,6 @@ export default function PixelGrid() {
 
   useEffect(() => {
     function handleResize() {
-export default function PixelGrid() {
-    };
   }, []);
 
   
