@@ -112,8 +112,9 @@ export default function PixelGrid() {
         position: "relative",
       }}
     >
-  
+ \
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           setSwatches((prev) => prev.filter((_, idx) => idx !== i));
@@ -142,6 +143,75 @@ export default function PixelGrid() {
         ×
       </button>
     </div>
+  ))}
+
+
+  <div
+    style={{
+      width: "6vw",
+      height: "6vw",
+      minWidth: "35px",
+      minHeight: "35px",
+      maxWidth: "80px",
+      maxHeight: "80px",
+      background: color,
+      border: "0.3vw solid #888",
+      borderRadius: "1vw",
+      marginTop: "6px",
+    }}
+  />
+
+
+  <input
+    type="text"
+    value={color}
+    onChange={(e) => {
+      const raw = e.target.value;
+      const normalized = normalizeHexInput(raw);
+      setColor(normalized);
+      // Update selected swatch live
+      if (selectedIndex != null) {
+        setSwatches((prev) => {
+          const copy = [...prev];
+          copy[selectedIndex] = normalized;
+          return copy;
+        });
+      }
+    }}
+    maxLength={7}
+    style={{
+      width: "6vw",
+      marginTop: "1vw",
+      background: "#111",
+      border: "0.3vw solid #666",
+      color: "white",
+      textAlign: "center",
+      borderRadius: "1vw",
+      fontSize: "1vw",
+    }}
+  />
+
+  <button
+    type="button"
+    onClick={() => {
+      setSwatches((prev) => [...prev, "#ffffff"]);
+      setSelectedIndex(swatches.length);
+      setColor("#ffffff");
+    }}
+    style={{
+      marginTop: "1vw",
+      padding: "0.5vw 1vw",
+      background: "#333",
+      color: "#fff",
+      border: "0.3vw solid #666",
+      borderRadius: "1vw",
+      cursor: "pointer",
+      fontSize: "0.9vw",
+    }}
+  >
+    + Add
+  </button>
+</div>
   ))}
 
 
