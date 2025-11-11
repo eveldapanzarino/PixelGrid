@@ -59,126 +59,136 @@ export default function PixelGrid() {
           padding: "1.5vw",
           display: "flex",
           flexDirection: "column",
-          gap: "1vw",
-          alignItems: "center",
           borderRight: "0.4vw solid #444",
+          boxSizing: "border-box",
+          height: "100vh",
         }}
       >
-        {swatches.map((sw, i) => (
-          <div
-            key={i}
-            onClick={() => handleSwatchClick(i)}
-            style={{
-              width: "6vw",
-              height: "6vw",
-              minWidth: "35px",
-              minHeight: "35px",
-              maxWidth: "80px",
-              maxHeight: "80px",
-              background: sw,
-              border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-              borderRadius: "1vw",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSwatches((prev) => prev.filter((_, idx) => idx !== i));
-                if (selectedIndex === i) setSelectedIndex(null);
-              }}
-              style={{
-                position: "absolute",
-                top: "-0.5vw",
-                right: "-0.5vw",
-                width: "1.5vw",
-                height: "1.5vw",
-                minWidth: "12px",
-                minHeight: "12px",
-                maxWidth: "20px",
-                maxHeight: "20px",
-                borderRadius: "50%",
-                background: "#900",
-                color: "#fff",
-                fontSize: "0.8vw",
-                lineHeight: "1.5vw",
-                textAlign: "center",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              ×
-            </button>
-          </div>
-        ))}
-
-        {/* Color Preview */}
+        {/* Scrollable swatches */}
         <div
           style={{
-            width: "6vw",
-            height: "6vw",
-            minWidth: "35px",
-            minHeight: "35px",
-            maxWidth: "80px",
-            maxHeight: "80px",
-            background: color,
-            border: "0.3vw solid #888",
-            borderRadius: "1vw",
-            marginTop: "6px",
-          }}
-        />
-
-        {/* Hex Input */}
-        <input
-          type="text"
-          value={color}
-          onChange={(e) => {
-            const normalized = normalizeHexInput(e.target.value);
-            setColor(normalized);
-            if (selectedIndex != null) {
-              setSwatches((prev) => {
-                const copy = [...prev];
-                copy[selectedIndex] = normalized;
-                return copy;
-              });
-            }
-          }}
-          maxLength={7}
-          style={{
-            width: "6vw",
-            marginTop: "1vw",
-            background: "#111",
-            border: "0.3vw solid #666",
-            color: "white",
-            textAlign: "center",
-            borderRadius: "1vw",
-            fontSize: "1vw",
-          }}
-        />
-
-        {/* Add Swatch */}
-        <button
-          type="button"
-          onClick={() => {
-            setSwatches((prev) => [...prev, "#ffffff"]);
-            setSelectedIndex(swatches.length);
-            setColor("#ffffff");
-          }}
-          style={{
-            marginTop: "1vw",
-            padding: "0.5vw 1vw",
-            background: "#333",
-            color: "#fff",
-            border: "0.3vw solid #666",
-            borderRadius: "1vw",
-            cursor: "pointer",
-            fontSize: "0.9vw",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1vw",
+            overflowY: "auto",
+            width: "100%",
           }}
         >
-          + Add
-        </button>
+          {swatches.map((sw, i) => (
+            <div
+              key={i}
+              onClick={() => handleSwatchClick(i)}
+              style={{
+                width: "80%", // proportional width of sidebar
+                aspectRatio: "1/1", // maintain square shape
+                background: sw,
+                border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+                borderRadius: "0.5vw",
+                cursor: "pointer",
+                position: "relative",
+                flexShrink: 0, // prevent shrinking
+              }}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+                  if (selectedIndex === i) setSelectedIndex(null);
+                }}
+                style={{
+                  position: "absolute",
+                  top: "-0.5vw",
+                  right: "-0.5vw",
+                  width: "1.5vw",
+                  height: "1.5vw",
+                  minWidth: "12px",
+                  minHeight: "12px",
+                  maxWidth: "20px",
+                  maxHeight: "20px",
+                  borderRadius: "50%",
+                  background: "#900",
+                  color: "#fff",
+                  fontSize: "0.8vw",
+                  lineHeight: "1.5vw",
+                  textAlign: "center",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Fixed preview, input, add button */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1vw",
+            marginTop: "1vw",
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              aspectRatio: "1/1",
+              background: color,
+              border: "0.3vw solid #888",
+              borderRadius: "0.5vw",
+            }}
+          />
+          <input
+            type="text"
+            value={color}
+            onChange={(e) => {
+              const normalized = normalizeHexInput(e.target.value);
+              setColor(normalized);
+              if (selectedIndex != null) {
+                setSwatches((prev) => {
+                  const copy = [...prev];
+                  copy[selectedIndex] = normalized;
+                  return copy;
+                });
+              }
+            }}
+            maxLength={7}
+            style={{
+              width: "80%",
+              background: "#111",
+              border: "0.3vw solid #666",
+              color: "white",
+              textAlign: "center",
+              borderRadius: "0.5vw",
+              fontSize: "1vw",
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setSwatches((prev) => [...prev, "#ffffff"]);
+              setSelectedIndex(swatches.length);
+              setColor("#ffffff");
+            }}
+            style={{
+              width: "80%",
+              padding: "0.5vw 1vw",
+              background: "#333",
+              color: "#fff",
+              border: "0.3vw solid #666",
+              borderRadius: "0.5vw",
+              cursor: "pointer",
+              fontSize: "0.9vw",
+            }}
+          >
+            + Add
+          </button>
+        </div>
       </div>
 
       {/* DRAWING GRID */}
