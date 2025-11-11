@@ -247,30 +247,30 @@ const colors = ${data};
         </button>
       </div>
 
-      {/* DRAWING GRID */}
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: `repeat(250, 1vw)`,
-          gridTemplateRows: `repeat(${rows}, 1vw)`,
-          userSelect: "none",
-          touchAction: "none",
-        }}
-      >
-        {pixels.map((_, i) => (
-          <div
-            key={i}
-            onPointerDown={(e) => {
-              setIsDrawing(true);
-              paintPixel(e);
-            }}
-            onPointerEnter={(e) => {
-              if (isDrawing) paintPixel(e);
-            }}
-          />
-        ))}
-      </div>
+  {/* DRAWING GRID */}
+<div
+  style={{
+    flex: 1,
+    display: "grid",
+    gridTemplateColumns: `repeat(250, 1vw)`, // ✅ FIXED
+    gridTemplateRows: `repeat(${rows}, 1vw)`, // ✅ FIXED
+    userSelect: "none",
+    touchAction: "none",
+  }}
+>
+  {pixels.map((_, i) => (
+    <div
+      key={i}
+      onPointerDown={(e) => {
+        setIsDrawing(true);
+        paintPixel(e);
+      }}
+      onPointerEnter={(e) => {
+        if (isDrawing) paintPixel(e);
+      }}
+    />
+  ))}
+</div>
     </div>
   </div>
 );
