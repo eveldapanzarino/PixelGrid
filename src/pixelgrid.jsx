@@ -71,9 +71,9 @@ export default function PixelGrid() {
               onClick={() => handleSwatchClick(uniqueIndex)}
               style={{
                 width: "6vw",
-                height: "6vw",
+                height: "6vh",
                 background: sw,
-                border: uniqueIndex === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+                border: "0.4vw solid white",
                 borderRadius: "1vw",
                 cursor: "pointer",
                 position: "relative",
