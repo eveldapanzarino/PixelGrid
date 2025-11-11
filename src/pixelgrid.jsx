@@ -86,7 +86,6 @@ export default function PixelGrid() {
    
     <div
       style={{
-        flex: 1,
         display: "grid",
         gridTemplateColumns: `repeat(250, 1.5vw)`,
         gridTemplateRows: `repeat(${rows}, 1.5vw)`,
