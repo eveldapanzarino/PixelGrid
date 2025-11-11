@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 
 export default function PixelGrid() {
-  // top bar uses a proportional viewport height (in vh)
- // top bar height as a proportion of viewport
 
-  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+  const [size, setSize] = useState({
+    w: typeof window !== "undefined" ? window.innerWidth : 1200,
+    h: typeof window !== "undefined" ? window.innerHeight : 800,
+  });
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("#3498db");
   const [swatches, setSwatches] = useState([
@@ -12,40 +13,39 @@ export default function PixelGrid() {
     "#e74c3c",
     "#2ecc71",
     "#ffffff",
-
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const drawingRef = useRef(null);
-  const [showFileMenu, setShowFileMenu] = useState(false);
-
-  ;
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
+    function handlePointerUp() {
+      setIsDrawing(false);
+    }
+
     window.addEventListener("resize", handleResize);
-    window.addEventListener("pointerup", () => setIsDrawing(false));
+    window.addEventListener("pointerup", handlePointerUp);
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("pointerup", () => setIsDrawing(false));
+      window.removeEventListener("pointerup", handlePointerUp);
     };
   }, []);
 
   const cellVW = size.w / 100;
 
-  // subtract top bar height (in px) from available height for rows
-  const topbarPx = (TOPBAR_VH / 100) * size.h;
-  const rows = Math.max(1, Math.floor((size.h - topbarPx) / cellVW));
 
-  const rows = Math.max(1, Math.floor(size.h / cellVW));
+  // compute rows and columns based on available space and cell size (1vw)
+ 
+  const columns = Math.max(1, Math.floor(size.w / cellVW));
 
   const pixels = Array.from({ length: totalPixels });
 
   function paintPixel(e) {
-    if (!e.target || !(e.target instanceof HTMLElement)) return;
-    e.target.style.background = color;
+    const el = e.target instanceof HTMLElement ? e.target : null;
+    if (!el) return;
+    el.style.background = color;
   }
 
   function normalizeHexInput(raw) {
@@ -86,6 +86,7 @@ export default function PixelGrid() {
               borderRadius: "1vw",
               cursor: "pointer",
               position: "relative",
+              overflow: "hidden",
             }}
           >
             <button
@@ -123,11 +124,7 @@ export default function PixelGrid() {
         {/* Color Preview */}
         <div
           style={{
-
-            width: "6vh",
-
             width: "10vh",
-
             background: color,
             border: "0.3vw solid #888",
             borderRadius: "1vw",
@@ -152,11 +149,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-
-            width: "9vh",
-
             width: "6vh",
-
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
@@ -171,18 +164,10 @@ export default function PixelGrid() {
         <button
           type="button"
           onClick={() => {
-
-            // Only add if there are less than 4 swatches
-            if (swatches.length < 4) {
-              setSwatches((prev) => [...prev, "#ffffff"]);
-              setSelectedIndex(swatches.length); // select the new one
-              setColor("#ffffff");
-            }
-
+            if (swatches.length >= 4) return;
             setSwatches((prev) => [...prev, "#ffffff"]);
-            setSelectedIndex(swatches.length % 4);
+            setSelectedIndex(swatches.length);
             setColor("#ffffff");
-
           }}
           style={{
             marginTop: "1vw",
@@ -191,12 +176,8 @@ export default function PixelGrid() {
             color: "#fff",
             border: "0.3vw solid #666",
             borderRadius: "1vw",
-
             cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
             opacity: swatches.length >= 4 ? 0.5 : 1,
-
-            cursor: "pointer",
-
             fontSize: "0.9vw",
           }}
         >
@@ -204,47 +185,17 @@ export default function PixelGrid() {
         </button>
       </div>
 
-        {/* DRAWING GRID */}
-        <div
-          ref={drawingRef}
-          style={{
-            flex: 1,
-            display: "grid",
-            gridTemplateColumns: `repeat(250, 1vw)`,
-            gridTemplateRows: `repeat(${rows}, 1vw)`,
-            userSelect: "none",
-            touchAction: "none",
-            height: "100%",
-          }}
-        >
-          {pixels.map((_, i) => (
-            <div
-              key={i}
-              onPointerDown={(e) => {
-                setIsDrawing(true);
-                paintPixel(e);
-              }}
-              onPointerEnter={(e) => {
-                if (isDrawing) paintPixel(e);
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-}
-
       {/* DRAWING GRID */}
       <div
+        ref={drawingRef}
         style={{
           flex: 1,
           display: "grid",
-          gridTemplateColumns: `repeat(250, 1vw)`,
+          gridTemplateColumns: `repeat(${columns}, 1vw)`,
           gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
+          height: "100%",
         }}
       >
         {pixels.map((_, i) => (
@@ -256,6 +207,12 @@ export default function PixelGrid() {
             }}
             onPointerEnter={(e) => {
               if (isDrawing) paintPixel(e);
+            }}
+            style={{
+              width: "1vw",
+              height: "1vw",
+              boxSizing: "border-box",
+              border: "0.05vw solid rgba(0,0,0,0.05)",
             }}
           />
         ))}
