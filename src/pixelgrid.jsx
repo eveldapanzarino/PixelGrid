@@ -2,7 +2,7 @@ return (
   <div
     style={{
       display: "flex",
-      width: "300px",
+      width: "100w",
       height: "100vh",
       overflow: "hidden",
       background: "#111",
@@ -28,8 +28,8 @@ return (
             key={i}
             onClick={() => setColor(swatch)}
             style={{
-              width: "4.6vw",
-              height: "4.6vw",
+              width: "4.6px",
+              height: "4.6px",
               background: swatch,
               border: swatch === color ? "3px solid white" : "2px solid #666",
               borderRadius: "6px",
