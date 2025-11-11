@@ -144,30 +144,7 @@ const colors = ${data};
     Save File
   </button>
 
-  {/* ✅ Load Button + Hidden File Input */}
-  <input
-    id="fileLoader"
-    type="file"
-    accept=".html"
-    onChange={(e) => loadFromHTML(e.target.files[0])}
-    style={{ display: "none" }}
-  />
-  <button
-    onClick={() => document.getElementById("fileLoader").click()}
-    style={{
-      width: "100%",
-      padding: "0.5vw 1vw",
-      background: "#333",
-      color: "white",
-      borderRadius: "0.5vw",
-      border: "0.2vw solid #666",
-      cursor: "pointer",
-      fontSize: "0.9vw",
-      marginBottom: "2vw"
-    }}
-  >
-    Load File
-  </button>
+  
 
   {swatches.map((sw, i) => (
     <div
