@@ -1,7 +1,7 @@
 return (
   <div
     style={{
-      display: "flex",
+      display: "grid",
       width: "100w",
       height: "100vh",
       overflow: "hidden",
@@ -15,7 +15,9 @@ return (
         width: "80px",
         background: "#222",
         padding: "10px",
-        display: "flex",
+        grid-template-columns: "1, 100px",
+    grid-template-rows: 9
+    
         flexDirection: "column",
         gap: "8px",
         alignItems: "center",
