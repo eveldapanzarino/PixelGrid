@@ -208,8 +208,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       style={{
         width: "5vh",
         height: "5vh",
-            marginLeft: ".5vw",
-            marginRight: ".5vw",
+            marginLeft: "1vw",
+            marginRight: "1vw",
         background: sw,
         border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
         borderRadius: "1vw",
