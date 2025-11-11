@@ -238,13 +238,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       >
         ×
       </button>
-      <div style={{
-color: "#FFFFFF",
-fontSize: "0.8vw",
-textAlign: "center",
-      }}>
-        Selected
-      </div>
+
     </div>
   ))}
 
@@ -258,7 +252,13 @@ textAlign: "center",
       marginTop: "6px",
     }}
   />
-
+  <div style={{
+color: "#FFFFFF",
+fontSize: "0.8vw",
+textAlign: "center",
+      }}>
+        Selected
+      </div>
   <input
     type="text"
     value={color}
