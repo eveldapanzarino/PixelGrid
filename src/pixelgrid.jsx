@@ -49,41 +49,7 @@ export default function PixelGrid() {
   }
 
   return (
-    {/* TOPBAR */}
-    <div
-        style={{
-          width: "100vw",
-          height: "3vw",
-          background: "#222",
-          padding: "1.5vw",
-          display: "grid",
-          flexDirection: "column",
-          gap: "1vw",
-          alignItems: "center",
-          borderRight: "0.4vw solid #444",
-        }} class="topbar"
-      >
-      <div style={{
-        grid-template-columns: "10, 10vw",
-      grid-template-rows: "1, 100vw",
-      }} class="topbar-menu">
-      File
-      </div>
-      <div style={{
-        grid-template-columns: "10, 10vw",
-      grid-template-rows: "1, 100vw",
-      }} class="topbar-menu">
-      </div>
-       <div style={{
-        grid-template-columns: "10, 10vw",
-      grid-template-rows: "1, 100vw",
-      }} class="topbar-menu">
-      </div>
-       <div style={{
-        grid-template-columns: "10, 10vw",
-      grid-template-rows: "1, 100vw",
-      }} class="topbar-menu">
-      </div>
+
      <div style={{
         grid-template-columns: "10, 10vw",
       grid-template-rows: "1, 100vw",
