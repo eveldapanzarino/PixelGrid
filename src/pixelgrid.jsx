@@ -55,7 +55,7 @@
             top: "-0.5vw",
             right: "-0.5vw",
             width: "1.5vw",
-            height: "1.5vw",
+            height: "1.5vh",
             minWidth: "12px",
             minHeight: "12px",
             maxWidth: "20px",
