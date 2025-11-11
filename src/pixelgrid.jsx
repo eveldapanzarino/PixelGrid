@@ -280,8 +280,7 @@ export default function PixelGrid() {
     + Add
   </button>
 </div>
-        {/* Optional: Add a button to apply the current input to the selected swatch even if it's partial */}
-
+      
       </div>
 
      
