@@ -153,10 +153,9 @@ const [showFileMenu, setShowFileMenu] = useState(false);
             saveToHTML();
           }}
           style={{
-            padding: "0.8vw 1vw",
             cursor: "pointer",
             color: "white",
-            fontSize: "0.9vw",
+            fontSize: "1.2vw",
             borderBottom: "0.2vw solid #333"
           }}
         >
@@ -165,7 +164,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 
         {/* FUTURE OPTIONS (Load, Export PNG, etc) */}
         <div style={{ padding: "0.8vw 1vw", color: "#666", fontSize: "0.9vw" }}>
-          (more soon)
+         
         </div>
       </div>
     )}
