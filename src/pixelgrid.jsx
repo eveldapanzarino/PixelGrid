@@ -189,7 +189,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     paddingRight: "1vw",
     paddingBottom: "1vw",
 position: "relative",
-   margintop: "5vw",
+   margin-top: "5vw",
     display: "inline-grid",
     flexDirection: "column",
     gap: "1vw",
