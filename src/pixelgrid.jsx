@@ -105,7 +105,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   display: "grid",
   gridTemplateColumns: "repeat(12, 8.35vw)",
   alignItems: "center",
-
+    gridTemplateColumns: "repeat(12, 7.2vw)",
   zIndex: 20
 }}>
   
@@ -114,6 +114,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   <img src="/favicon-32x32.png" alt="favicon" style={{
     width: "3vw",
     height: "3vw",
+    
     justifyContent: "center",
   }} />
 </div>
