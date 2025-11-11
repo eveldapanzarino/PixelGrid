@@ -18,8 +18,7 @@ export default function PixelGrid() {
   const drawingRef = useRef(null);
   const [showFileMenu, setShowFileMenu] = useState(false);
 
-    "#000000",
-  ]);
+  ;
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
