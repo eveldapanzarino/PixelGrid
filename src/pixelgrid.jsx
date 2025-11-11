@@ -48,7 +48,40 @@ export default function PixelGrid() {
   }
 
   return (
-    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
+  <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column" }}>
+
+    {/* TOP BAR (BLOCK) */}
+    <div
+      style={{
+        height: "5vh",
+        minHeight: "40px",
+        background: "#111",
+        borderBottom: "0.4vw solid #333",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 1vw",
+        gap: "1vw",
+      }}
+    >
+      <button
+        onClick={() => alert("Save will be reconnected in next step")}
+        style={{
+          background: "#333",
+          color: "white",
+          padding: "0.5vw 1vw",
+          borderRadius: "0.5vw",
+          border: "0.2vw solid #666",
+          cursor: "pointer",
+        }}
+      >
+        Save
+      </button>
+
+      <input type="file" style={{ color: "white" }} />
+    </div>
+
+    {/* MAIN CONTENT ROW */}
+    <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
 
       {/* COLOR SIDEBAR */}
       <div
@@ -81,7 +114,7 @@ export default function PixelGrid() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setSwatches(prev => prev.filter((_, idx) => idx !== i));
+                setSwatches((prev) => prev.filter((_, idx) => idx !== i));
                 if (selectedIndex === i) setSelectedIndex(null);
               }}
               style={{
@@ -109,7 +142,6 @@ export default function PixelGrid() {
           </div>
         ))}
 
-        {/* Color Preview */}
         <div
           style={{
             width: "6vh",
@@ -121,16 +153,14 @@ export default function PixelGrid() {
           }}
         />
 
-        {/* Hex Input */}
         <input
           type="text"
           value={color}
           onChange={(e) => {
             const normalized = normalizeHexInput(e.target.value);
             setColor(normalized);
-
             if (selectedIndex != null) {
-              setSwatches(prev => {
+              setSwatches((prev) => {
                 const copy = [...prev];
                 copy[selectedIndex] = normalized;
                 return copy;
@@ -150,12 +180,11 @@ export default function PixelGrid() {
           }}
         />
 
-        {/* Add Swatch */}
         <button
           type="button"
           onClick={() => {
             if (swatches.length < 4) {
-              setSwatches(prev => [...prev, "#ffffff"]);
+              setSwatches((prev) => [...prev, "#ffffff"]);
               setSelectedIndex(swatches.length);
               setColor("#ffffff");
             }
@@ -176,31 +205,30 @@ export default function PixelGrid() {
         </button>
       </div>
 
-      {/* DRAWING GRID */}
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: `repeat(250, 1vw)`,   // ✅ FIXED
-          gridTemplateRows: `repeat(${rows}, 1vw)`,  // ✅ FIXED
-          userSelect: "none",
-          touchAction: "none",
-        }}
-      >
-        {pixels.map((_, i) => (
-          <div
-            key={i}
-            onPointerDown={(e) => {
-              setIsDrawing(true);
-              paintPixel(e);
-            }}
-            onPointerEnter={(e) => {
-              if (isDrawing) paintPixel(e);
-            }}
-          />
-        ))}
-      </div>
-
-    </div>
-  );
+     {/* DRAWING GRID */}
+<div
+  style={{
+    flex: 1,
+    display: "grid",
+    gridTemplateColumns: `repeat(250, 1vw)`, // ✅ FIXED
+    gridTemplateRows: `repeat(${rows}, 1vw)`, // ✅ FIXED
+    userSelect: "none",
+    touchAction: "none",
+  }}
+>
+  {pixels.map((_, i) => (
+    <div
+      key={i}
+      onPointerDown={(e) => {
+        setIsDrawing(true);
+        paintPixel(e);
+      }}
+      onPointerEnter={(e) => {
+        if (isDrawing) paintPixel(e);
+      }}
+    />
+  ))}
+</div>
+</div></div> 
+);
 }
