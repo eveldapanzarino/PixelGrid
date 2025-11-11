@@ -79,7 +79,7 @@ export default function PixelGrid() {
 
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
-     {/* COLOR SIDEBAR */}
+ 
 <div
   style={{
     width: "8vw",
@@ -112,7 +112,7 @@ export default function PixelGrid() {
         position: "relative",
       }}
     >
-      {/* Optional remove button */}
+  
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -144,7 +144,7 @@ export default function PixelGrid() {
     </div>
   ))}
 
-  {/* Dynamic preview of current color */}
+
   <div
     style={{
       width: "6vw",
@@ -160,7 +160,7 @@ export default function PixelGrid() {
     }}
   />
 
-  {/* Hex Input */}
+
   <input
     type="text"
     value={color}
@@ -190,7 +190,6 @@ export default function PixelGrid() {
     }}
   />
 
-  {/* Add new swatch */}
   <button
     onClick={() => {
       setSwatches((prev) => [...prev, "#ffffff"]);
@@ -215,7 +214,7 @@ export default function PixelGrid() {
 
       </div>
 
-      {/* DRAWING GRID */}
+     
       <div
         style={{
           flex: 1,
