@@ -82,11 +82,11 @@ export default function PixelGrid() {
       {/* COLOR SIDEBAR */}
       <div
         style={{
-          width: "10vw",
+          width: "8vw",
           minWidth: "60px",
           maxWidth: "140px",
           background: "#222",
-          padding: "3vw",
+          padding: "2vw",
           display: "flex",
           flexDirection: "column",
           gap: "1vw",
