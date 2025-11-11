@@ -90,7 +90,7 @@ const colors = ${data};
   }
 
   return (
-    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
+    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" margin-top: "4vw",}}>
 
       {/* ✅ TOP BAR */}
       <div style={{
