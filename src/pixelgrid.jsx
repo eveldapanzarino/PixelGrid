@@ -90,43 +90,47 @@ const colors = ${data};
   }
 
   return (
-    <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
+  <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column" }}>
 
-      {/* ✅ TOP BAR */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "4vh",
+    {/* TOP BAR (BLOCK) */}
+    <div
+      style={{
+        height: "5vh",
+        minHeight: "40px",
         background: "#111",
-        borderBottom: "0.3vw solid #444",
+        borderBottom: "0.4vw solid #333",
         display: "flex",
         alignItems: "center",
         padding: "0 1vw",
         gap: "1vw",
-        zIndex: 10
-      }}>
-        <button onClick={saveToHTML} style={{ background: "#333", color: "white", padding: "0.5vw 1vw", borderRadius: "0.5vw", border: "0.2vw solid #666" }}>
-          Save
-        </button>
-        <input
-          type="file"
-          accept=".html"
-          onChange={(e) => loadFromHTML(e.target.files[0])}
-          style={{ color: "white" }}
-        />
-      </div>
+      }}
+    >
+      <button
+        onClick={() => alert("Save will be reconnected in next step")}
+        style={{
+          background: "#333",
+          color: "white",
+          padding: "0.5vw 1vw",
+          borderRadius: "0.5vw",
+          border: "0.2vw solid #666",
+          cursor: "pointer",
+        }}
+      >
+        Save
+      </button>
 
-      {/* SIDEBAR */}
+      <input type="file" style={{ color: "white" }} />
+    </div>
+
+    {/* MAIN CONTENT ROW */}
+    <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+
+      {/* COLOR SIDEBAR */}
       <div
         style={{
           width: "8vw",
           background: "#222",
-          paddingTop: "5vh", // shifted down for top bar
-          paddingLeft: "1.5vw",
-          paddingRight: "1.5vw",
-          paddingBottom: "1.5vw",
+          padding: "1.5vw",
           display: "flex",
           flexDirection: "column",
           gap: "1vw",
@@ -168,6 +172,9 @@ const colors = ${data};
                 borderRadius: "50%",
                 background: "#900",
                 color: "#fff",
+                fontSize: "0.8vw",
+                lineHeight: "1.5vw",
+                textAlign: "center",
                 border: "none",
                 cursor: "pointer",
               }}
@@ -240,7 +247,7 @@ const colors = ${data};
         </button>
       </div>
 
-      {/* GRID */}
+      {/* DRAWING GRID */}
       <div
         style={{
           flex: 1,
@@ -249,7 +256,6 @@ const colors = ${data};
           gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
-          paddingTop: "4vh", // shifted down for top bar
         }}
       >
         {pixelColors.map((c, i) => (
@@ -258,14 +264,14 @@ const colors = ${data};
             style={{ background: c }}
             onPointerDown={(e) => {
               setIsDrawing(true);
-              paintPixel(e, i);
+              paintPixel(e);
             }}
-            onPointerEnter={() => {
-              if (isDrawing) paintPixel(null, i);
+            onPointerEnter={(e) => {
+              if (isDrawing) paintPixel(e);
             }}
           />
         ))}
       </div>
     </div>
-  );
-}
+  </div>
+);
