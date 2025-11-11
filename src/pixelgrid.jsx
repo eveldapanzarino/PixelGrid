@@ -110,7 +110,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 }}>
   
 <div >
-  <img src="./public/favicon-32x32.png" style={{
+  <img src="localhost:4173/public/favicon-32x32.png" style={{
     width: "3vw",
     height: "3vw"
   }} 
