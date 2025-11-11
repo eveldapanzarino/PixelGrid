@@ -12,10 +12,10 @@ return (
     {/* LEFT COLOR PALETTE */}
     <div
       style={{
-        width: "8vw",
+        width: "80px",
         background: "#222",
         padding: "10px",
-        display: "grid",
+        display: "flex",
         flexDirection: "column",
         gap: "8px",
         alignItems: "center",
