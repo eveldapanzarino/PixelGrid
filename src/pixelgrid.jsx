@@ -13,8 +13,7 @@ return (
 <div
   style={{
     width: "12vw",               // <-- responsive width
-    minWidth: "60px",            // <-- prevents too small on tiny screens
-    maxWidth: "140px",           // <-- prevents too large on huge screens
+        // <-- prevents too large on huge screens
     background: "#222",
     padding: "1vw",
     display: "flex",
