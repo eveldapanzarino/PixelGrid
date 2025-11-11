@@ -1,4 +1,3 @@
- 
 import { useEffect, useState } from "react";
 
 export default function PixelGrid() {
@@ -10,6 +9,7 @@ export default function PixelGrid() {
     "#e74c3c",
     "#2ecc71",
     "#ffffff",
+    "#000000",
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -17,10 +17,8 @@ export default function PixelGrid() {
     function handleResize() {
       setSize({ w: window.innerWidth, h: window.innerHeight });
     }
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("pointerup", () => setIsDrawing(false));
-
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointerup", () => setIsDrawing(false));
@@ -49,15 +47,7 @@ export default function PixelGrid() {
   }
 
   return (
-
-     <div style={{
-        grid-template-columns: "10, 10vw",
-      grid-template-rows: "1, 100vw",
-      }} class="topbar-menu">
-      </div>
-    </div>
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
-
       {/* COLOR SIDEBAR */}
       <div
         style={{
@@ -69,58 +59,62 @@ export default function PixelGrid() {
           gap: "1vw",
           alignItems: "center",
           borderRight: "0.4vw solid #444",
+          
         }}
       >
-        {swatches.map((sw, i) => (
-          <div
-            key={i}
-            onClick={() => handleSwatchClick(i)}
-            style={{
-              width: "6vh",
-              height: "6vh",
-              background: sw,
-              border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-              borderRadius: "1vw",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSwatches(prev => prev.filter((_, idx) => idx !== i));
-                if (selectedIndex === i) setSelectedIndex(null);
-              }}
+        {swatches.map((sw, i) => {
+          const uniqueIndex = i % 4; // Only 0,1,2,3
+          return (
+            <div
+              key={i}
+              onClick={() => handleSwatchClick(uniqueIndex)}
               style={{
-                position: "absolute",
-                top: "-0.5vw",
-                right: "-0.5vw",
-                width: "1.5vw",
-                height: "1.5vw",
-                minWidth: "12px",
-                minHeight: "12px",
-                maxWidth: "20px",
-                maxHeight: "20px",
-                borderRadius: "50%",
-                background: "#900",
-                color: "#fff",
-                fontSize: "0.8vw",
-                lineHeight: "1.5vw",
-                textAlign: "center",
-                border: "none",
+                width: "6vh",
+                height: "6vh",
+                background: sw,
+                border: "0.4vw solid white",
+                borderRadius: "1vw",
                 cursor: "pointer",
+                position: "relative",
               }}
             >
-              ×
-            </button>
-          </div>
-        ))}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+                  if (selectedIndex === uniqueIndex) setSelectedIndex(null);
+                }}
+                style={{
+                  position: "absolute",
+                  top: "-0.5vw",
+                  right: "-0.5vw",
+                  width: "1.5vw",
+                  height: "1.5vw",
+                  minWidth: "12px",
+                  minHeight: "12px",
+                  maxWidth: "20px",
+                  maxHeight: "20px",
+                  borderRadius: "50%",
+                  background: "#900",
+                  color: "#fff",
+                  fontSize: "0.8vw",
+                  lineHeight: "1.5vw",
+                  textAlign: "center",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                ×
+              </button>
+            </div>
+          );
+        })}
 
         {/* Color Preview */}
         <div
           style={{
-            width: "6vh",
+            width: "10vh",
             height: "6vh",
             background: color,
             border: "0.3vw solid #888",
@@ -136,9 +130,8 @@ export default function PixelGrid() {
           onChange={(e) => {
             const normalized = normalizeHexInput(e.target.value);
             setColor(normalized);
-
             if (selectedIndex != null) {
-              setSwatches(prev => {
+              setSwatches((prev) => {
                 const copy = [...prev];
                 copy[selectedIndex] = normalized;
                 return copy;
@@ -147,7 +140,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-            width: "9vh",
+            width: "6vh",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
@@ -162,11 +155,9 @@ export default function PixelGrid() {
         <button
           type="button"
           onClick={() => {
-            if (swatches.length < 4) {
-              setSwatches(prev => [...prev, "#ffffff"]);
-              setSelectedIndex(swatches.length);
-              setColor("#ffffff");
-            }
+            setSwatches((prev) => [...prev, "#ffffff"]);
+            setSelectedIndex(swatches.length % 4);
+            setColor("#ffffff");
           }}
           style={{
             marginTop: "1vw",
@@ -175,8 +166,7 @@ export default function PixelGrid() {
             color: "#fff",
             border: "0.3vw solid #666",
             borderRadius: "1vw",
-            cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
-            opacity: swatches.length >= 4 ? 0.5 : 1,
+            cursor: "pointer",
             fontSize: "0.9vw",
           }}
         >
@@ -189,8 +179,8 @@ export default function PixelGrid() {
         style={{
           flex: 1,
           display: "grid",
-          gridTemplateColumns: `repeat(250, 1vw)`,   // ✅ FIXED
-          gridTemplateRows: `repeat(${rows}, 1vw)`,  // ✅ FIXED
+          gridTemplateColumns: `repeat(250, 1vw)`,
+          gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
         }}
@@ -208,6 +198,9 @@ export default function PixelGrid() {
           />
         ))}
       </div>
+    </div>
+  );
+}
 
     </div>
   );
