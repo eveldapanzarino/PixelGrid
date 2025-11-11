@@ -61,7 +61,8 @@ export default function PixelGrid() {
               borderRadius: "6px",
               cursor: "pointer",
             }}
-          />
+          >
+    
         )
       )}
 
