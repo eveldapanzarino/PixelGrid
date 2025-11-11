@@ -114,7 +114,7 @@ export default function PixelGrid() {
         {/* Color Preview */}
         <div
           style={{
-            width: "10vh",
+            width: "6vh",
             height: "6vh",
             background: color,
             border: "0.3vw solid #888",
@@ -140,7 +140,7 @@ export default function PixelGrid() {
           }}
           maxLength={7}
           style={{
-            width: "6vh",
+            width: "9vh",
             marginTop: "1vw",
             background: "#111",
             border: "0.3vw solid #666",
