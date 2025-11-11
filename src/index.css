@@ -6,7 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
+position: relative;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -57,7 +57,6 @@ button:focus-visible {
   background-color: blue;
 }
 .pixelgrid:hover{
-border-color: black;
-border: 1px solid;
+  border: 1px solid black;
 }
 
