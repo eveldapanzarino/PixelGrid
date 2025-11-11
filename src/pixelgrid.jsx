@@ -99,8 +99,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   top: 0,
   left: 0,
   width: "100vw",
-  height: "3vh",
-  background: "#111",
+  height: "5vh",
+  background: "#ffffff",
   borderBottom: "0.3vw solid #444",
   display: "grid",
   gridTemplateColumns: "repeat(12, 8.35vw)",
@@ -113,7 +113,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   {/* use public/ assets via root path so Vite serves them correctly */}
   <img src="/favicon-32x32.png" alt="favicon" style={{
     width: "3vw",
-    height: "3vw"
+    height: "3vw",
+    text-align: "center",
   }} />
 </div>
 
