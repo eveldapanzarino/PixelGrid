@@ -50,20 +50,24 @@ export default function PixelGrid() {
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
       {/* COLOR SIDEBAR */}
-      <div
-        style={{
-          width: "8vw",
-          minWidth: "60px",
-          maxWidth: "140px",
-          background: "#222",
-          padding: "1.5vw",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1vw",
-          alignItems: "center",
-          borderRight: "0.4vw solid #444",
-        }}
-      >
+   <div
+  style={{
+    width: "8vw",
+    minWidth: "60px",
+    maxWidth: "140px",
+    background: "#222",
+    padding: "1.5vw",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1vw",
+    alignItems: "center",
+    borderRight: "0.4vw solid #444",
+    maxHeight: "100vh",       // limit sidebar to viewport height
+    overflowY: "auto",        // enable vertical scrolling
+    boxSizing: "border-box",  // include padding in height
+    paddingRight: "0.8vw",    // optional, avoid overlap with scrollbar
+  }}
+>
         {swatches.map((sw, i) => (
           <div
             key={i}
