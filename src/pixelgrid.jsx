@@ -307,6 +307,6 @@ export default function PixelGrid() {
           />
         ))}
       </div>
-    </div>
+   
   );
 }
