@@ -95,19 +95,19 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 
    {/* ✅ TOP BAR */}
 <div style={{
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100vw",
-  height: "4vh",
-  background: "#111",
-  borderBottom: "0.3vw solid #444",
-  display: "grid",
-  gridTemplateColumns: "repeat(7, 1fr)",
-  alignItems: "center",
-  padding: "0 1vw",
-  gap: "1vw",
-  zIndex: 20
+position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 3vh;
+    background: rgb(17, 17, 17);
+    border-bottom: 0.3vw solid rgb(68, 68, 68);
+    display: grid;
+    grid-template-columns: repeat(15, 7.5vw);
+    align-items: center;
+    padding: 0px;
+    gap: 1vw;
+    z-index: 20;
 }}>
   
   {/* FILE BUTTON */}
@@ -118,7 +118,6 @@ const [showFileMenu, setShowFileMenu] = useState(false);
         background: "#222",
         color: "white",
         border: "0.2vw solid #555",
-        borderRadius: "0.5vw",
         
         cursor: "pointer",
         fontSize: "1vw"
