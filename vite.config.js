@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true, // listens on 0.0.0.0
-    port: 5173, // match DigitalOcean health check
+    port: 8080, // match DigitalOcean health check
     allowedHosts: [
       'pixelgrid-furb8.ondigitalocean.app',
       'localhost'
@@ -13,7 +13,7 @@ export default defineConfig({
   },
   preview: {
     host: true,
-    port: 5173,
+    port: 8080,
     allowedHosts: [
       'pixelgrid-furb8.ondigitalocean.app',
       'localhost'
