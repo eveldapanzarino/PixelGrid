@@ -65,6 +65,15 @@ color: #FFFFFF;
     text-align: center;
     margin-top: -1vw;
 }
+.colored-label{
+    width: 5vh;
+    height: 5vh;
+    background: #000;
+    border: 0.3vw solid #666;
+    border-radius: 1vw;
+    cursor: pointer;
+    position: relative;
+}
 @media (max-width: 1100px) {
 
 .selected-label{
@@ -138,6 +147,14 @@ height:3.25vw;
 .colored-label{
 width:3vw;
 height:3vw; 
+}
+  
+}
+@media (max-width: 600px) {
+
+.colored-label{
+width:275vw;
+height:275vw; 
 }
   
 }

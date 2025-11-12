@@ -207,14 +207,11 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       key={i}
       onClick={() => handleSwatchClick(i)}
       style={{
-        width: "5vh",
-        height: "5vh",
+
         background: sw,
         border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-        borderRadius: "1vw",
-        cursor: "pointer",
-        position: "relative",
       }}
+      className="colored-label"
     >
       <button
         type="button"
