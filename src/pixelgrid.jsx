@@ -253,12 +253,6 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   }}
 />
 <div className="selected-label"
-  style={{
-    color: "#FFFFFF",
-    fontSize: "0.8vw",
-    textAlign: "center",
-    marginTop: "-1vw",
-  }}
 >
   Selected
 </div>
