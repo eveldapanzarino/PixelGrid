@@ -299,7 +299,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
       opacity: swatches.length >= 4 ? 0.5 : 1,
       fontSize: "1.3vw",
-      width: "5vw",
+      width: "7vw",
       textAlign: "center"
     }}
   >
