@@ -2,11 +2,11 @@
   "name": "pixelgrid",
   "version": "1.0.0",
   "private": true,
- "scripts": {
+"scripts": {
   "dev": "vite",
-  "build": "npm run build",
+  "build": "vite build",
   "preview": "vite preview",
-  "start": "npm start"
+  "start": "vite preview --port 8080 --host"
 },
   "dependencies": {
     "react": "^18.3.0",
