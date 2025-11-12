@@ -13,7 +13,7 @@ export default function PixelGrid() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showFileMenu, setShowFileMenu] = useState(false);
-  const [showColorMenu, setShowColorMenu] = useState(false);
+  const [showColorMenu, setShowColorMenu] = useState(true); // Start open or closed
 
   const cellVW = size.w / 100;
   const rows = Math.max(1, Math.floor(size.h / cellVW));
@@ -113,7 +113,7 @@ const colors = ${data};
           }} />
         </div>
 
-        {/* FILE MENU */}
+        {/* FILE BUTTON */}
         <div style={{ position: "relative" }}>
           <button
             onClick={() => setShowFileMenu(v => !v)}
@@ -128,6 +128,7 @@ const colors = ${data};
           >
             File
           </button>
+
           {showFileMenu && (
             <div
               style={{
@@ -154,7 +155,7 @@ const colors = ${data};
                   cursor: "pointer",
                   color: "white",
                   textAlign: "center",
-                  fontSize: "0.9vw",
+                  fontSize: ".9vw",
                   borderBottom: "0.2vw solid #333"
                 }}
               >
@@ -163,41 +164,48 @@ const colors = ${data};
             </div>
           )}
         </div>
+      </div>
 
-        {/* 🎨 COLOR MENU */}
-        <div style={{ position: "relative" }}>
+      {/* ✅ SIDEBAR */}
+      <div
+        style={{
+          background: "#222",
+          padding: "1vw",
+          position: "relative",
+          marginTop: "4vw",
+          display: "inline-flex",
+          flexDirection: "column",
+          gap: "1vw",
+          alignItems: "center",
+          borderRight: "0.4vw solid #444",
+        }}
+      >
+        {/* 🎨 COLOR DROPDOWN MENU */}
+        <div style={{ width: "100%", position: "relative" }}>
           <button
             onClick={() => setShowColorMenu(v => !v)}
             style={{
-              background: "#222",
-              color: "white",
-              border: "0.2vw solid #555",
               width: "100%",
+              background: "#333",
+              color: "white",
+              border: "0.3vw solid #555",
+              borderRadius: "1vw",
+              fontSize: "1.5vw",
+              padding: "0.5vw 0",
               cursor: "pointer",
-              fontSize: "2vw"
             }}
           >
-            Color
+            {showColorMenu ? "▼ Color" : "▶ Color"}
           </button>
 
           {showColorMenu && (
             <div
               style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                background: "#222",
-                border: "0.25vw solid #555",
-                borderRadius: "0.5vw",
-                padding: "1vw",
-                marginTop: "0.6vw",
-                width: "15vw",
-                boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
-                zIndex: 30,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "1vw"
+                marginTop: "1vw",
+                gap: "1vw",
               }}
             >
               {swatches.map((sw, i) => (
@@ -209,8 +217,8 @@ const colors = ${data};
                     width: "5vw",
                     height: "5vw",
                     border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-                    cursor: "pointer",
                     position: "relative",
+                    cursor: "pointer",
                   }}
                 >
                   <button
@@ -254,6 +262,7 @@ const colors = ${data};
               <input
                 type="text"
                 value={color}
+                onFocus={() => setShowColorPicker(true)}
                 onChange={(e) => {
                   const normalized = normalizeHexInput(e.target.value);
                   setColor(normalized);
@@ -267,13 +276,13 @@ const colors = ${data};
                 }}
                 maxLength={7}
                 style={{
-                  width: "8vw",
+                  width: "7vw",
                   background: "#111",
                   border: "0.3vw solid #666",
                   color: "white",
                   textAlign: "center",
                   borderRadius: "1vw",
-                  fontSize: "1.3vw",
+                  fontSize: "1.5vw",
                 }}
               />
 
@@ -299,6 +308,7 @@ const colors = ${data};
                     border: "0.2vw solid #666",
                     borderRadius: "0.6vw",
                     cursor: "pointer",
+                    background: "transparent",
                   }}
                 />
               )}
@@ -333,7 +343,7 @@ const colors = ${data};
         </div>
       </div>
 
-      {/* GRID */}
+      {/* ✅ GRID */}
       <div
         style={{
           flex: 1,
