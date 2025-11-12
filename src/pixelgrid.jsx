@@ -11,6 +11,7 @@ export default function PixelGrid() {
     "#ffffff",
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const cellVW = size.w / 100;
   const rows = Math.max(1, Math.floor(size.h / cellVW));
@@ -237,38 +238,74 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     border: "0.3vw solid #888",
     borderRadius: "1vw",
     marginTop: "6px",
+    cursor: "pointer",
   }}
-/>
+  onClick={() => setShowColorPicker(true)}
+></div>
 <div className="selected-label"
 >
   Selected
 </div>
-  <input
-    type="text"
-    value={color}
-    onChange={(e) => {
-      const normalized = normalizeHexInput(e.target.value);
-      setColor(normalized);
-      if (selectedIndex != null) {
-        setSwatches((prev) => {
-          const copy = [...prev];
-          copy[selectedIndex] = normalized;
-          return copy;
-        });
-      }
-    }}
-    maxLength={7}
-    style={{
-      width: "7.5vw",
-      marginTop: "1vw",
-      background: "#111",
-      border: "0.3vw solid #666",
-      color: "white",
-      textAlign: "center",
-      borderRadius: "1vw",
-      fontSize: "1.5vw",
-    }}
-  />
+  <div style={{ position: "relative", width: "7.5vw" }}>
+    <input
+      type="text"
+      value={color}
+      onFocus={() => setShowColorPicker(true)}
+      onClick={() => setShowColorPicker(true)}
+      onChange={(e) => {
+        const normalized = normalizeHexInput(e.target.value);
+        setColor(normalized);
+        if (selectedIndex != null) {
+          setSwatches((prev) => {
+            const copy = [...prev];
+            copy[selectedIndex] = normalized;
+            return copy;
+          });
+        }
+      }}
+      maxLength={7}
+      style={{
+        width: "7.5vw",
+        marginTop: "1vw",
+        background: "#111",
+        border: "0.3vw solid #666",
+        color: "white",
+        textAlign: "center",
+        borderRadius: "1vw",
+        fontSize: "1.5vw",
+      }}
+    />
+
+    {showColorPicker && (
+      <div style={{ position: "absolute", top: "4.5vw", left: 0, zIndex: 9999 }}>
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => {
+            const c = e.target.value;
+            setColor(c);
+            if (selectedIndex != null) {
+              setSwatches((prev) => {
+                const copy = [...prev];
+                copy[selectedIndex] = c;
+                return copy;
+              });
+            }
+          }}
+          onBlur={() => setShowColorPicker(false)}
+          style={{
+            width: "6vw",
+            height: "3.5vw",
+            border: "0.2vw solid #666",
+            borderRadius: "0.6vw",
+            padding: 0,
+            background: "transparent",
+            cursor: "pointer"
+          }}
+        />
+      </div>
+    )}
+  </div>
 
   <button
     type="button"
