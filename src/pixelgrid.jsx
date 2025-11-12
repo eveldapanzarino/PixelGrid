@@ -241,8 +241,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
 
 <div
   style={{
-    width: "5vh",
-    height: "5vh",
+    width: "5vw",
+    height: "5vw",
     background: color,
     border: "0.3vw solid #888",
     borderRadius: "1vw",

@@ -120,11 +120,3 @@ font-size: 1.7vw !important;
 }
 
 
-@media (max-width: 800px) {
-
-.colored-label{
-width:5vw;
-height:5vw; 
-}
-  
-}
