@@ -298,7 +298,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
       borderRadius: "1vw",
       cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
       opacity: swatches.length >= 4 ? 0.5 : 1,
-      fontSize: "0.9vw",
+      fontSize: "1.3vw",
       width: "5vw",
       textAlign: "center"
     }}
