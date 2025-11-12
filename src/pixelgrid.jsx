@@ -189,7 +189,7 @@ const colors = ${data};
     <button
       onClick={() => setShowColorMenu((prev) => !prev)}
       style={{
-        width: "100%",
+        width: "8vw",
         background: "#333",
         color: "white",
         border: "0.3vw solid #666",
