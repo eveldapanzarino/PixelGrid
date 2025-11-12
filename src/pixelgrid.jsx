@@ -196,7 +196,7 @@ const colors = ${data};
         borderRadius: "1vw",
         padding: "0.5vw 1vw",
         cursor: "pointer",
-        fontSize: "1.5vw",
+        fontSize: "1.3vw",
       }}
     >
       {showColorMenu ? "▼ Color" : "► Color"}
