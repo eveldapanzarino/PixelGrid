@@ -60,14 +60,16 @@ button:focus-visible {
   border: 1px solid black;
 }
 .selected-label{
-color: #FFFFFF
+color: #FFFFFF;
+  font-size: 1vw;
+    text-align: center;
+    margin-top: -1vw;
 }
 @media (max-width: 1100px) {
 
 .selected-label{
 font-size: 1.1vw !important;
    color: #FFFFFF;
-    font-size: 1vw;
     text-align: center;
     margin-top: -1vw;
 }
