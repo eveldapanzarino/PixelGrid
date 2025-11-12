@@ -60,3 +60,10 @@ button:focus-visible {
   border: 1px solid black;
 }
 
+@media (max-width: 1100px) {
+
+.selected-label{
+font-size: 3vw;
+}
+  
+}

@@ -242,24 +242,26 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     </div>
   ))}
 
-  <div
-    style={{
-      width: "5vh",
-      height: "5vh",
-      background: color,
-      border: "0.3vw solid #888",
-      borderRadius: "1vw",
-      marginTop: "6px",
-    }}
-  />
-  <div style={{
-color: "#FFFFFF",
-fontSize: "0.8vw",
-textAlign: "center",
+<div
+  style={{
+    width: "5vh",
+    height: "5vh",
+    background: color,
+    border: "0.3vw solid #888",
+    borderRadius: "1vw",
+    marginTop: "6px",
+  }}
+/>
+<div class="selected-label"
+  style={{
+    color: "#FFFFFF",
+    fontSize: "0.8vw",
+    textAlign: "center",
     marginTop: "-1vw",
-      }}>
-        Selected
-      </div>
+  }}
+>
+  Selected
+</div>
   <input
     type="text"
     value={color}
