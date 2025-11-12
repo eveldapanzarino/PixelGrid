@@ -266,7 +266,9 @@ const colors = ${data};
                 }}
               />
             </div>
-
+<div className="selected-label">
+  Selected
+  </div>
             {/* HEX INPUT */}
             <input
               type="text"
