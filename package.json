@@ -4,9 +4,9 @@
   "private": true,
  "scripts": {
   "dev": "vite",
-  "build": "vite build",
+  "build": "npm run build",
   "preview": "vite preview",
-  "start": "npm run start --port 8080 --host"
+  "start": "npm run start"
 },
   "dependencies": {
     "react": "^18.3.0",
