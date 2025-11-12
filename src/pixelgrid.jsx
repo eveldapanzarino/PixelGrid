@@ -269,14 +269,14 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     }}
     maxLength={7}
     style={{
-      width: "5vw",
+      width: "7.5vw",
       marginTop: "1vw",
       background: "#111",
       border: "0.3vw solid #666",
       color: "white",
       textAlign: "center",
       borderRadius: "1vw",
-      fontSize: "1vw",
+      fontSize: "1.5vw",
     }}
   />
 
