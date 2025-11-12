@@ -260,8 +260,8 @@ const colors = ${data};
         <input
           type="text"
           value={color}
-          onFocus={() => setShowColorPicker(true)}
-          onClick={() => setShowColorPicker(true)}
+          onFocus={() => showColorPicker}
+          onClick={() => showColorPicker}
           onChange={(e) => {
             const normalized = normalizeHexInput(e.target.value);
             setColor(normalized);
