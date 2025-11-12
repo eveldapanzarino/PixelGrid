@@ -54,11 +54,10 @@ export default function PixelGrid() {
   function saveToHTML() {
     const data = JSON.stringify(pixelColors);
     const html = `
-<!DOCTYPE html>
-<html>
-<body style="margin:0;background:black;">
-<div style="display:grid;grid-template-columns:repeat(250,10px);grid-auto-rows:10px;">
-${pixelColors.map(c => `<div style="width:10px;height:10px;background:${c}"></div>`).join("")}
+
+<body style="margin:0; overflow-x:hidden;">
+<div style="display:grid;grid-template-columns:repeat(250,1vw);grid-auto-rows:1vw;">
+${pixelColors.map(c => `<div style="width:1vw;height:1vw;background:${c}"></div>`).join("")}
 </div>
 <script>
 const colors = ${data};
