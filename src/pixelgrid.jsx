@@ -183,7 +183,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
      {/* SIDEBAR */}
 <div
   style={{
-    width: "6vh",
+    
     background: "#222",
     paddingLeft: "1vw",
     paddingRight: "1vw",

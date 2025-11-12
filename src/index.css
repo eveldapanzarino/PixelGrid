@@ -66,7 +66,7 @@ color: #FFFFFF;
     margin-top: -1vw;
 }
 .colored-label{
-  min-width: 3.25vw;
+  
     width: 5vw;
     height: 5vw;
     background: #000;
@@ -138,22 +138,8 @@ height:3.5vw;
 @media (max-width: 800px) {
 
 .colored-label{
-width:3.25%;
-height:3.25%; 
-}
-  
-}
-@media (max-width: 700px) {
-
-.colored-label{
-border-radius: ;
-}
-  
-}
-@media (max-width: 600px) {
-
-.colored-label{
-border-radius: ;
+width:5%;
+height:5%; 
 }
   
 }
