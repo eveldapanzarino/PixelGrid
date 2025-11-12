@@ -121,45 +121,48 @@ font-size: 1.7vw !important;
 
 
 /* Swatch remove (responsive) */
-.swatch-remove{
+/* Make swatch-remove button scale with swatch size */
+.swatch-remove {
   position: absolute;
-  top: -0.5vw;
-  right: -0.5vw;
-  width: 1.5vw;
-  height: 1.5vw;
-  min-width: 12px;
-  min-height: 12px;
-  max-width: 22px;
-  max-height: 22px;
+  top: 0.1em;
+  right: 0.1em;
+  width: 28%;
+  height: 28%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 50%;
   background: #900;
   color: #fff;
   border: none;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8vw;
+  font-size: 1.2em;
   line-height: 1;
+  z-index: 2;
+  box-shadow: 0 0.1em 0.3em rgba(0,0,0,0.15);
 }
 
-@media (max-width: 900px){
-  .swatch-remove{
-    top: -0.4rem;
-    right: -0.4rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    font-size: 1rem;
+@media (max-width: 900px) {
+  .swatch-remove {
+    width: 32%;
+    height: 32%;
+    font-size: 1.3em;
+    top: 0.15em;
+    right: 0.15em;
   }
 }
 
-@media (max-width: 420px){
-  .swatch-remove{
-    top: -0.35rem;
-    right: -0.35rem;
-    width: 2.2rem;
-    height: 2.2rem;
-    font-size: 1.1rem;
+@media (max-width: 600px) {
+  .swatch-remove {
+    width: 36%;
+    height: 36%;
+    font-size: 1.4em;
+    top: 0.18em;
+    right: 0.18em;
   }
 }
 
