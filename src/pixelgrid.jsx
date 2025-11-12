@@ -279,7 +279,7 @@ const colors = ${data};
 
 
       <div style={{ position: "relative", width: "7.5vw" }}>
-        <input
+    <input
           type="text"
           value={color}
           onFocus={() => setShowColorPicker(true)}
