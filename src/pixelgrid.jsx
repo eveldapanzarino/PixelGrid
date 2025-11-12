@@ -252,7 +252,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     marginTop: "6px",
   }}
 />
-<div className="selected-label"
+<div class="selected-label"
   style={{
     color: "#FFFFFF",
     fontSize: "0.8vw",
