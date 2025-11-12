@@ -322,7 +322,7 @@ textAlign: "center",
           gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
-          paddingTop: "4vh", // shifted down for top bar
+          marginTop: "4.2vw", // shifted down for top bar
         }}
       >
         {pixelColors.map((c, i) => (
