@@ -241,6 +241,7 @@ const colors = ${data};
         </div>
       ))}
 
+        {/* COLOR PREVIEW BOX */}
       <div
         style={{
           width: "5vw",
@@ -251,17 +252,24 @@ const colors = ${data};
           marginTop: "6px",
           cursor: "pointer",
         }}
-        onClick={() => setShowColorPicker(true)}
+        onClick={() => {
+          // trigger the color input programmatically
+          const picker = document.getElementById("hidden-color-picker");
+          if (picker) picker.click();
+        }}
       ></div>
 
       <div className="selected-label">Selected</div>
 
+      {/* HEX FIELD */}
       <div style={{ position: "relative", width: "7.5vw" }}>
         <input
           type="text"
           value={color}
-          onFocus={() => setShowColorPicker(true)}
-          onClick={() => setShowColorPicker(true)}
+          onClick={() => {
+            const picker = document.getElementById("hidden-color-picker");
+            if (picker) picker.click();
+          }}
           onChange={(e) => {
             const normalized = normalizeHexInput(e.target.value);
             setColor(normalized);
@@ -283,39 +291,34 @@ const colors = ${data};
             textAlign: "center",
             borderRadius: "1vw",
             fontSize: "1.5vw",
+            cursor: "pointer",
           }}
         />
 
-        {showColorPicker && (
-          <div style={{ position: "absolute", top: "-1vw", left: "9vw", zIndex: 9999 }}>
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => {
-                const c = e.target.value;
-                setColor(c);
-                if (selectedIndex != null) {
-                  setSwatches((prev) => {
-                    const copy = [...prev];
-                    copy[selectedIndex] = c;
-                    return copy;
-                  });
-                }
-              }}
-              onBlur={() => setShowColorPicker(false)}
-              style={{
-                width: "5vw",
-                height: "5vw",
-                border: "0.2vw solid #666",
-                borderRadius: "0.6vw",
-                padding: 0,
-                background: "transparent",
-                cursor: "pointer",
-              }}
-            />
-          </div>
-        )}
+        {/* HIDDEN COLOR PICKER */}
+        <input
+          id="hidden-color-picker"
+          type="color"
+          value={color}
+          onChange={(e) => {
+            const c = e.target.value;
+            setColor(c);
+            if (selectedIndex != null) {
+              setSwatches((prev) => {
+                const copy = [...prev];
+                copy[selectedIndex] = c;
+                return copy;
+              });
+            }
+          }}
+          style={{
+            position: "fixed",
+            top: "-100vh", // keep it invisible but clickable
+            opacity: 0,
+          }}
+        />
       </div>
+
 
       <button
         type="button"
