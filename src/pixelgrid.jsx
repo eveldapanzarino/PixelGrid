@@ -148,8 +148,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           display: "grid",
           gridTemplateColumns: "7, 8vw",
           padding: "0.5vw 0",
-          marginTop: "0.4vw",
-          width: "10vw",
+          marginTop: "0.6vw",
+          width: "100%",
           boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
           zIndex: 30
         }}
@@ -164,6 +164,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           style={{
             cursor: "pointer",
             color: "white",
+            textAlign: "center",
             fontSize: ".9vw",
             borderBottom: "0.2vw solid #333"
           }}
