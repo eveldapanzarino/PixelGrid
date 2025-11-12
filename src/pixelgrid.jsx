@@ -110,7 +110,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
   
 <div>
   {/* use public/ assets via root path so Vite serves them correctly */}
-  <img src="/favicon-32x32.png" alt="favicon" style={{
+  <img src="/android-chrome-512x512.png" alt="favicon" style={{
     width: "3vw",
     height: "3vw",
         marginLeft: "2vw",
