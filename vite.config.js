@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,        // listens on all interfaces
+    host: true,
     port: 8080,
     strictPort: true,
     allowedHosts: ['pixelgrid-furb8.ondigitalocean.app', 'localhost']
