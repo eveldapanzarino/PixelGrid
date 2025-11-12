@@ -295,7 +295,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           onBlur={() => setShowColorPicker(false)}
           style={{
             width: "5vw",
-            height: "5vh",
+            height: "5vw",
             border: "0.2vw solid #666",
             borderRadius: "0.6vw",
             padding: 0,
