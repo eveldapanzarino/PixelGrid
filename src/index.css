@@ -124,10 +124,11 @@ font-size: 1.7vw !important;
 /* Make swatch-remove button scale with swatch size */
 /* Swatch remove button scales with viewport width */
 /* Swatch remove button scales with viewport width and aligns to right edge */
+/* Swatch remove button sits just outside the right edge */
 .swatch-remove {
   position: absolute;
   top: 0.3vw;
-  right: 0.6vw;
+  right: -0.2vw;
   width: 2vw;
   height: 2vw;
   border-radius: 50%;
@@ -150,7 +151,7 @@ font-size: 1.7vw !important;
     height: 2.5vw;
     font-size: 1.5vw;
     top: 0.4vw;
-    right: 0.8vw;
+    right: -0.3vw;
   }
 }
 
@@ -160,7 +161,7 @@ font-size: 1.7vw !important;
     height: 3vw;
     font-size: 1.7vw;
     top: 0.5vw;
-    right: 1vw;
+    right: -0.4vw;
   }
 }
 
