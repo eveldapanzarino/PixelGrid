@@ -277,7 +277,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     />
 
     {showColorPicker && (
-      <div style={{ position: "absolute", top: "4.5vw", left: 0, zIndex: 9999 }}>
+      <div style={{ position: "absolute", top: "-1vw", left: "3.8vw", zIndex: 9999 }}>
         <input
           type="color"
           value={color}
@@ -294,8 +294,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           }}
           onBlur={() => setShowColorPicker(false)}
           style={{
-            width: "6vw",
-            height: "3.5vw",
+            width: "4vw",
+            height: "4vw",
             border: "0.2vw solid #666",
             borderRadius: "0.6vw",
             padding: 0,
