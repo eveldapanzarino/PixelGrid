@@ -108,3 +108,36 @@ font-size: 1.7vw !important;
 }
   
 }
+
+@media (max-width: 1100px) {
+
+.colored-label{
+width:4vw;
+height:4vw; 
+}
+  
+}
+@media (max-width: 900px) {
+
+.colored-label{
+width:3.5vw;
+height:3.5vw; 
+}
+  
+}
+@media (max-width: 800px) {
+
+.colored-label{
+width:3.25vw;
+height:3.25vw; 
+}
+  
+}
+@media (max-width: 700px) {
+
+.colored-label{
+width:3vw;
+height:3vw; 
+}
+  
+}
