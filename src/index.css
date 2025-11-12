@@ -73,3 +73,36 @@ font-size: 1.1vw !important;
 }
   
 }
+@media (max-width: 900px) {
+
+.selected-label{
+font-size: 1.4vw !important;
+   color: #FFFFFF;
+ 
+    text-align: center;
+    margin-top: -1vw;
+}
+  
+}
+@media (max-width: 600px) {
+
+.selected-label{
+font-size: 1.6vw !important;
+   color: #FFFFFF;
+   
+    text-align: center;
+    margin-top: -1vw;
+}
+  
+}
+@media (max-width: 500px) {
+
+.selected-label{
+font-size: 1.7vw !important;
+   color: #FFFFFF;
+   
+    text-align: center;
+    margin-top: -1vw;
+}
+  
+}
