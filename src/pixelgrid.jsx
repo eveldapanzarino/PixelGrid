@@ -101,7 +101,7 @@ const colors = ${data};
         borderBottom: "0.3vw solid #444",
         display: "grid",
         alignItems: "center",
-        gridTemplateColumns: "repeat(12, 7.2vw)",
+        gridTemplateColumns: "repeat(7, 100%)",
         zIndex: 20
       }}>
         <div>
