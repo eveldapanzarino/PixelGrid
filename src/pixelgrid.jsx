@@ -306,6 +306,8 @@ textAlign: "center",
       cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
       opacity: swatches.length >= 4 ? 0.5 : 1,
       fontSize: "0.9vw",
+      width: "5vh",
+      textAlign: "center"
     }}
   >
     + Add
