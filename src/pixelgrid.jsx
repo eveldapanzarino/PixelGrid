@@ -12,12 +12,13 @@ export default function PixelGrid() {
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showFileMenu, setShowFileMenu] = useState(false);
+  const [showColorMenu, setShowColorMenu] = useState(false);
 
   const cellVW = size.w / 100;
   const rows = Math.max(1, Math.floor(size.h / cellVW));
   const totalPixels = Math.max(1, Math.floor(250 * rows * 1.2));
 
-  // NEW: Pixel color state
   const [pixelColors, setPixelColors] = useState(() => Array(totalPixels).fill("#000000"));
 
   useEffect(() => {
@@ -51,11 +52,9 @@ export default function PixelGrid() {
     setColor(swatches[idx] || "#000000");
   }
 
-  // ✅ SAVE FUNCTION
   function saveToHTML() {
     const data = JSON.stringify(pixelColors);
     const html = `
-
 <body style="margin:0; overflow-x:hidden;">
 <div style="display:grid;grid-template-columns:repeat(250,1vw);grid-auto-rows:1vw;">
 ${pixelColors.map(c => `<div style="width:1vw;height:1vw;background:${c}"></div>`).join("")}
@@ -65,7 +64,6 @@ const colors = ${data};
 </script>
 </body>
 </html>`;
-
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -75,12 +73,11 @@ const colors = ${data};
     URL.revokeObjectURL(url);
   }
 
-  // ✅ LOAD FUNCTION
   function loadFromHTML(file) {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target.result;
-      const match = text.match(/const colors = (\\[[^;]+\\])/);
+      const match = text.match(/const colors = (\[[^;]+\])/);
       if (match) {
         const arr = JSON.parse(match[1]);
         setPixelColors(arr);
@@ -88,251 +85,253 @@ const colors = ${data};
     };
     reader.readAsText(file);
   }
-const [showFileMenu, setShowFileMenu] = useState(false);
 
   return (
     <div style={{ display: "flex", width: "100vw", height: "100vh", overflow: "hidden" }}>
 
-   {/* ✅ TOP BAR */}
-<div style={{
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100vw",
-  height: "4vw",
-  background: "#ffffff",
-  borderBottom: "0.3vw solid #444",
-  display: "grid",
-  alignItems: "center",
-    gridTemplateColumns: "repeat(12, 7.2vw)",
-  zIndex: 20
-}}>
-  
-<div>
-  {/* use public/ assets via root path so Vite serves them correctly */}
-  <img src="/android-chrome-512x512.png" alt="favicon" style={{
-    width: "3vw",
-    height: "3vw",
-        marginLeft: "2vw",
-    marginRight: "2vw",
-    justifyContent: "center",
-  }} />
-</div>
-
-  {/* FILE BUTTON */}
-  <div style={{ position: "relative", }}>
-    <button
-      onClick={() => setShowFileMenu(v => !v)}
-      style={{
-        background: "#222",
-        color: "white",
-        border: "0.2vw solid #555",
-        width: "100%",
-        cursor: "pointer",
-        fontSize: "2vw"
-      }}
-    >
-      File
-    </button>
-
-    {/* DROPDOWN MENU */}
-    {showFileMenu && (
-      <div
-        style={{
-          position: "absolute",
-          top: "100%",
-          left: 0,
-          background: "#222",
-          border: "0.25vw solid #555",
-          borderRadius: "0.5vw",
-          display: "grid",
-          gridTemplateColumns: "7, 8vw",
-          padding: "0.5vw 0",
-          marginTop: "0.6vw",
-          width: "100%",
-          boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
-          zIndex: 30
-        }}
-      >
-        
-        {/* SAVE OPTION */}
-        <div
-          onClick={() => {
-            setShowFileMenu(false);
-            saveToHTML();
-          }}
-          style={{
-            cursor: "pointer",
-            color: "white",
-            textAlign: "center",
-            fontSize: ".9vw",
-            borderBottom: "0.2vw solid #333"
-          }}
-        >
-          Save
+      {/* ✅ TOP BAR */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "4vw",
+        background: "#ffffff",
+        borderBottom: "0.3vw solid #444",
+        display: "grid",
+        alignItems: "center",
+        gridTemplateColumns: "repeat(12, 7.2vw)",
+        zIndex: 20
+      }}>
+        <div>
+          <img src="/android-chrome-512x512.png" alt="favicon" style={{
+            width: "3vw",
+            height: "3vw",
+            marginLeft: "2vw",
+            marginRight: "2vw",
+            justifyContent: "center",
+          }} />
         </div>
 
-        {/* FUTURE OPTIONS (Load, Export PNG, etc) */}
-        <div style={{ padding: "0.8vw 1vw", color: "#666", fontSize: "0.9vw" }}>
-         
+        {/* FILE MENU */}
+        <div style={{ position: "relative" }}>
+          <button
+            onClick={() => setShowFileMenu(v => !v)}
+            style={{
+              background: "#222",
+              color: "white",
+              border: "0.2vw solid #555",
+              width: "100%",
+              cursor: "pointer",
+              fontSize: "2vw"
+            }}
+          >
+            File
+          </button>
+          {showFileMenu && (
+            <div
+              style={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                background: "#222",
+                border: "0.25vw solid #555",
+                borderRadius: "0.5vw",
+                display: "grid",
+                padding: "0.5vw 0",
+                marginTop: "0.6vw",
+                width: "100%",
+                boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
+                zIndex: 30
+              }}
+            >
+              <div
+                onClick={() => {
+                  setShowFileMenu(false);
+                  saveToHTML();
+                }}
+                style={{
+                  cursor: "pointer",
+                  color: "white",
+                  textAlign: "center",
+                  fontSize: "0.9vw",
+                  borderBottom: "0.2vw solid #333"
+                }}
+              >
+                Save
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 🎨 COLOR MENU */}
+        <div style={{ position: "relative" }}>
+          <button
+            onClick={() => setShowColorMenu(v => !v)}
+            style={{
+              background: "#222",
+              color: "white",
+              border: "0.2vw solid #555",
+              width: "100%",
+              cursor: "pointer",
+              fontSize: "2vw"
+            }}
+          >
+            Color
+          </button>
+
+          {showColorMenu && (
+            <div
+              style={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                background: "#222",
+                border: "0.25vw solid #555",
+                borderRadius: "0.5vw",
+                padding: "1vw",
+                marginTop: "0.6vw",
+                width: "15vw",
+                boxShadow: "0 0.6vw 2vw rgba(0,0,0,0.5)",
+                zIndex: 30,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1vw"
+              }}
+            >
+              {swatches.map((sw, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleSwatchClick(i)}
+                  style={{
+                    background: sw,
+                    width: "5vw",
+                    height: "5vw",
+                    border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
+                    cursor: "pointer",
+                    position: "relative",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSwatches((prev) => prev.filter((_, idx) => idx !== i));
+                      if (selectedIndex === i) setSelectedIndex(null);
+                    }}
+                    style={{
+                      position: "absolute",
+                      top: "-0.6vw",
+                      right: "-0.6vw",
+                      background: "#000",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "1.5vw",
+                      height: "1.5vw",
+                      cursor: "pointer",
+                      fontSize: "1vw",
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+
+              <div
+                style={{
+                  width: "5vw",
+                  height: "5vw",
+                  background: color,
+                  border: "0.3vw solid #888",
+                  borderRadius: "1vw",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowColorPicker(true)}
+              ></div>
+
+              <input
+                type="text"
+                value={color}
+                onChange={(e) => {
+                  const normalized = normalizeHexInput(e.target.value);
+                  setColor(normalized);
+                  if (selectedIndex != null) {
+                    setSwatches((prev) => {
+                      const copy = [...prev];
+                      copy[selectedIndex] = normalized;
+                      return copy;
+                    });
+                  }
+                }}
+                maxLength={7}
+                style={{
+                  width: "8vw",
+                  background: "#111",
+                  border: "0.3vw solid #666",
+                  color: "white",
+                  textAlign: "center",
+                  borderRadius: "1vw",
+                  fontSize: "1.3vw",
+                }}
+              />
+
+              {showColorPicker && (
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => {
+                    const c = e.target.value;
+                    setColor(c);
+                    if (selectedIndex != null) {
+                      setSwatches((prev) => {
+                        const copy = [...prev];
+                        copy[selectedIndex] = c;
+                        return copy;
+                      });
+                    }
+                  }}
+                  onBlur={() => setShowColorPicker(false)}
+                  style={{
+                    width: "5vw",
+                    height: "5vw",
+                    border: "0.2vw solid #666",
+                    borderRadius: "0.6vw",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (swatches.length < 4) {
+                    setSwatches((prev) => [...prev, "#ffffff"]);
+                    setSelectedIndex(swatches.length);
+                    setColor("#ffffff");
+                  }
+                }}
+                style={{
+                  marginTop: "1vw",
+                  padding: "0.5vw 1vw",
+                  background: "#333",
+                  color: "#fff",
+                  border: "0.3vw solid #666",
+                  borderRadius: "1vw",
+                  cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
+                  opacity: swatches.length >= 4 ? 0.5 : 1,
+                  fontSize: "1.3vw",
+                  width: "7vw",
+                  textAlign: "center"
+                }}
+              >
+                + Add
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    )}
-  </div>
-</div>
-
-     {/* SIDEBAR */}
-<div
-  style={{
-    
-    background: "#222",
-    paddingLeft: "1vw",
-    paddingRight: "1vw",
-    paddingBottom: "1vw",
-    paddingTop: "1vw",
-    position: "relative",
-    marginTop: "4vw",
-    display: "inline-flex",
-    flexDirection: "column",
-    gap: "1vw",
-    alignItems: "center",
-    borderRight: "0.4vw solid #444",
-  }}
->
-
-
-  
-
-  {swatches.map((sw, i) => (
-    <div
-      key={i}
-      onClick={() => handleSwatchClick(i)}
-      style={{
-
-        background: sw,
-        border: i === selectedIndex ? "0.4vw solid white" : "0.3vw solid #666",
-      }}
-      className="colored-label"
-    >
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          setSwatches((prev) => prev.filter((_, idx) => idx !== i));
-          if (selectedIndex === i) setSelectedIndex(null);
-        }}
-        className="swatch-remove"
-        aria-label={`Remove swatch ${i + 1}`}
-      >
-        ×
-      </button>
-
-    </div>
-  ))}
-
-<div
-  style={{
-    width: "5vw",
-    height: "5vw",
-    background: color,
-    border: "0.3vw solid #888",
-    borderRadius: "1vw",
-    marginTop: "6px",
-    cursor: "pointer",
-  }}
-  onClick={() => setShowColorPicker(true)}
-></div>
-<div className="selected-label"
->
-  Selected
-</div>
-  <div style={{ position: "relative", width: "7.5vw" }}>
-    <input
-      type="text"
-      value={color}
-      onFocus={() => setShowColorPicker(true)}
-      onClick={() => setShowColorPicker(true)}
-      onChange={(e) => {
-        const normalized = normalizeHexInput(e.target.value);
-        setColor(normalized);
-        if (selectedIndex != null) {
-          setSwatches((prev) => {
-            const copy = [...prev];
-            copy[selectedIndex] = normalized;
-            return copy;
-          });
-        }
-      }}
-      maxLength={7}
-      style={{
-        width: "7.5vw",
-        marginTop: "1vw",
-        background: "#111",
-        border: "0.3vw solid #666",
-        color: "white",
-        textAlign: "center",
-        borderRadius: "1vw",
-        fontSize: "1.5vw",
-      }}
-    />
-
-    {showColorPicker && (
-      <div style={{ position: "absolute", top: "-1vw", left: "9vw", zIndex: 9999 }}>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => {
-            const c = e.target.value;
-            setColor(c);
-            if (selectedIndex != null) {
-              setSwatches((prev) => {
-                const copy = [...prev];
-                copy[selectedIndex] = c;
-                return copy;
-              });
-            }
-          }}
-          onBlur={() => setShowColorPicker(false)}
-          style={{
-            width: "5vw",
-            height: "5vw",
-            border: "0.2vw solid #666",
-            borderRadius: "0.6vw",
-            padding: 0,
-            background: "transparent",
-            cursor: "pointer"
-          }}
-        />
-      </div>
-    )}
-  </div>
-
-  <button
-    type="button"
-    onClick={() => {
-      if (swatches.length < 4) {
-        setSwatches((prev) => [...prev, "#ffffff"]);
-        setSelectedIndex(swatches.length);
-        setColor("#ffffff");
-      }
-    }}
-    style={{
-      marginTop: "1vw",
-      padding: "0.5vw 1vw",
-      background: "#333",
-      color: "#fff",
-      border: "0.3vw solid #666",
-      borderRadius: "1vw",
-      cursor: swatches.length >= 4 ? "not-allowed" : "pointer",
-      opacity: swatches.length >= 4 ? 0.5 : 1,
-      fontSize: "1.3vw",
-      width: "7vw",
-      textAlign: "center"
-    }}
-  >
-    + Add
-  </button>
-</div>
 
       {/* GRID */}
       <div
@@ -343,7 +342,7 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           gridTemplateRows: `repeat(${rows}, 1vw)`,
           userSelect: "none",
           touchAction: "none",
-          marginTop: "4.2vw", // shifted down for top bar
+          marginTop: "4.2vw",
         }}
       >
         {pixelColors.map((c, i) => (
