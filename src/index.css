@@ -59,7 +59,9 @@ button:focus-visible {
 .pixelgrid:hover{
   border: 1px solid black;
 }
-
+.selected-label{
+color: #FFFFFF
+}
 @media (max-width: 1100px) {
 
 .selected-label{
