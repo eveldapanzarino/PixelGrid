@@ -104,7 +104,7 @@ const colors = ${data};
         gridTemplateColumns: "repeat(10, 10%)",
         zIndex: 20
       }}>
-        <div>
+        <div className="logo">
           <img src="/android-chrome-512x512.png" alt="favicon" style={{
             width: "3vw",
             height: "3vw",

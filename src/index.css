@@ -144,7 +144,9 @@ font-size: 1.7vw !important;
   z-index: 2;
   box-shadow: 0 0.1vw 0.3vw rgba(0,0,0,0.15);
 }
-
+.logo{
+text-align: center;
+}
 @media (max-width: 900px) {
   .swatch-remove {
     width: 2.5vw;
