@@ -277,37 +277,30 @@ const [showFileMenu, setShowFileMenu] = useState(false);
     />
 
     {showColorPicker && (
-      <div style={{ position: "absolute", top: "4.5vw", left: 0, zIndex: 9999 }}>
-        {/* Default to hex input; user can type a hex like #ff0000 */}
+      <div style={{ position: "absolute", top: "-1vw", left: "9vw", zIndex: 9999 }}>
         <input
-          type="text"
+          type="color"
           value={color}
           onChange={(e) => {
-            const normalized = normalizeHexInput(e.target.value);
-            setColor(normalized);
+            const c = e.target.value;
+            setColor(c);
             if (selectedIndex != null) {
               setSwatches((prev) => {
                 const copy = [...prev];
-                copy[selectedIndex] = normalized;
+                copy[selectedIndex] = c;
                 return copy;
               });
             }
           }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") setShowColorPicker(false);
-            if (e.key === "Escape") setShowColorPicker(false);
-          }}
           onBlur={() => setShowColorPicker(false)}
           style={{
-            width: "6vw",
-            height: "3.5vw",
+            width: "5vw",
+            height: "5vh",
             border: "0.2vw solid #666",
             borderRadius: "0.6vw",
-            padding: "0.4vw",
-            background: "#111",
-            color: "#fff",
-            fontSize: "1.2vw",
-            textAlign: "center",
+            padding: 0,
+            background: "transparent",
+            cursor: "pointer"
           }}
         />
       </div>
