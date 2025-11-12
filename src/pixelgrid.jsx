@@ -220,18 +220,8 @@ const [showFileMenu, setShowFileMenu] = useState(false);
           setSwatches((prev) => prev.filter((_, idx) => idx !== i));
           if (selectedIndex === i) setSelectedIndex(null);
         }}
-        style={{
-          position: "absolute",
-          top: "-0.5vw",
-          right: "-0.5vw",
-          width: "1.5vw",
-          height: "1.5vw",
-          borderRadius: "50%",
-          background: "#900",
-          color: "#fff",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className="swatch-remove"
+        aria-label={`Remove swatch ${i + 1}`}
       >
         ×
       </button>
