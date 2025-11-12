@@ -213,7 +213,7 @@ const colors = ${data};
         gap: "1vw",
         width: "100%",
         transition: "max-height 0.3s ease",
-        overflow: "hidden",
+        
       }}
     >
       {swatches.map((sw, i) => (
