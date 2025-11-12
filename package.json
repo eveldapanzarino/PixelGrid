@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-  "start": "vite start --port 8080 --host"
-}
-
+    "start": "vite start --port 8080 --host"
   },
   "dependencies": {
     "react": "^18.3.0",
