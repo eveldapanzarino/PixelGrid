@@ -65,7 +65,7 @@ button:focus-visible {
 .selected-label{
 font-size: 5vw;
    color: #FFFFFF;
-    font-size: 0.8vw;
+    font-size: 1vw;
     text-align: center;
     margin-top: -1vw;
 }
