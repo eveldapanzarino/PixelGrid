@@ -241,20 +241,42 @@ const colors = ${data};
         </div>
       ))}
 
-      <div
-        style={{
-          width: "5vw",
-          height: "5vw",
-          background: color,
-          border: "0.3vw solid #888",
-          borderRadius: "1vw",
-          marginTop: "6px",
-          cursor: "pointer",
-        }}
-        onClick={() => setShowColorPicker(true)}
-      ></div>
+   <div
+  style={{
+    width: "5vw",
+    height: "5vw",
+    border: "0.3vw solid #888",
+    borderRadius: "1vw",
+    marginTop: "6px",
+    cursor: "pointer",
+    overflow: "hidden",
+  }}
+>
+  <input
+    type="color"
+    value={color}
+    onChange={(e) => {
+      const c = e.target.value;
+      setColor(c);
+      if (selectedIndex != null) {
+        setSwatches((prev) => {
+          const copy = [...prev];
+          copy[selectedIndex] = c;
+          return copy;
+        });
+      }
+    }}
+    style={{
+      width: "100%",
+      height: "100%",
+      border: "none",
+      padding: 0,
+      cursor: "pointer",
+    }}
+  />
+</div>
+<div className="selected-label">Selected</div>
 
-      <div className="selected-label">Selected</div>
 
       <div style={{ position: "relative", width: "7.5vw" }}>
         <input
