@@ -1,8 +1,9 @@
 {
-  "name": "pixel-grid",
+  "name": "pixelgrid",
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "deploy": "npm run build && gh-pages -d dist,
     "dev": "vite",
     "build": "vite build",
     "start": "vite preview",
